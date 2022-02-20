@@ -1,0 +1,24 @@
+#######################################
+#                                     #
+#           Survival Teams            #
+#                                     #
+#######################################
+
+#Select the data storage (.txt files in local or in database)
+#Valid values are 'file', 'mysql'
+dataStorage: 'file'
+
+#SQL Configuration
+sqlCredentials:
+  #the IP address of your host, ex: XXX.XX.XXX.XX
+  host: 'yourhost'
+  #The port to connect to the database, commonly 3306
+  port: 'portofyourdb'
+  #Username for the connexion
+  user: 'username'
+  #Password for the connexion
+  password: 'password'
+  #Name of the database
+  dbName: 'dbname'
+  #Prefix of the tables created by SurvivalTeams
+  dbTablesPrefix: 'ST'

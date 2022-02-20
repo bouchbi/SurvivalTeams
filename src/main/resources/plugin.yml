@@ -1,0 +1,12 @@
+name: Survivalteams
+version: '${project.version}'
+main: fr.alcanderia.plugin.survivalteams.Survivalteams
+api-version: 1.16
+prefix: "&aSurvival&6Teams&f"
+authors: [ bouchbi_ ]
+description: Teams plugin for Survival adventures on servers
+commands:
+  survivalteams:
+    description: Relay to all commands of the plugin
+    aliases: [ st, teams, steams ]
+permissions:
