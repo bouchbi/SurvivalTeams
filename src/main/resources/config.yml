@@ -21,4 +21,4 @@ sqlCredentials:
   #Name of the database
   dbName: 'dbname'
   #Prefix of the tables created by SurvivalTeams
-  dbTablesPrefix: 'ST'
+  dbTablesPrefix: 'Teams'

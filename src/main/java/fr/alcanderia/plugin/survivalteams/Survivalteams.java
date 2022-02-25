@@ -1,5 +1,6 @@
 package fr.alcanderia.plugin.survivalteams;
 
+import fr.alcanderia.plugin.survivalteams.commands.CommandAll;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -45,7 +46,8 @@ public final class Survivalteams extends JavaPlugin {
 		return config;
 	}
 
-	public static void registerCommands() {
-
+	public void registerCommands() {
+		this.getCommand("survivalteams").setExecutor(new CommandAll());
+		this.getCommand("survivalteams").setTabCompleter(new CommandAll());
 	}
 }

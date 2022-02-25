@@ -1,10 +1,16 @@
 package fr.alcanderia.plugin.survivalteams.network;
 
-import fr.alcanderia.plugin.survivalteams.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
+import fr.alcanderia.plugin.survivalteams.utils.TeamInfo;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class MySQLConnector {
@@ -13,8 +19,224 @@ public class MySQLConnector {
     static final String DB_url = "jdbc:mysql://" + Survivalteams.getConfiguration().getString("sqlCredentials.host") + ":" + Survivalteams.getConfiguration().getString("sqlCredentials.port") + "/" + Survivalteams.getConfiguration().getString("sqlCredentials.dbName") + "?serverTimezone=UTC";
     static final String DB_user = Survivalteams.getConfiguration().getString("sqlCredentials.user");
     static final String DB_password = Survivalteams.getConfiguration().getString("sqlCredentials.password");
-    static String tabName = Survivalteams.getConfiguration().getString("sqlCredentials.dbTablesPrefix") + "_" + "teams";
+    static String teamsTabName = Survivalteams.getConfiguration().getString("sqlCredentials.dbTablesPrefix") + "_" + "teams";
     private static Connection con;
+
+    public static String getInfo(String teamName, TeamInfo info) {
+        reopenIfClosed();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT " + TeamInfo.NAME.name + ", " + info.name + " FROM " + teamsTabName);
+
+            try {
+                ResultSet rs = ps.executeQuery();
+
+                try {
+                    String resInfo = null;
+
+                    String resTeamName;
+                    while (rs.next()) {
+                        resTeamName = rs.getString(TeamInfo.NAME.name);
+                        if (!Objects.equals(resTeamName, teamName))
+                            continue;
+
+                        resInfo = rs.getString(info.name);
+                    }
+
+                    return resInfo;
+                } catch (SQLException e) {
+                    logger.warning("Cannot get teamInfo for team " + teamName);
+                    e.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                logger.warning("cannot execute query");
+                e.printStackTrace();
+            }
+
+            finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    }
+                    catch (SQLException e) {
+                        logger.warning("cannot close statement");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.warning("Unable to prepare statement");
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static void updateInfo(String teamName, TeamInfo info, String update) {
+        reopenIfClosed();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("UPDATE " + teamsTabName + " SET " + info.name + " = ? WHERE " + TeamInfo.NAME.name + " = ?");
+
+            try {
+                ps.setString(1, update);
+                ps.setString(2, teamName);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                logger.warning("cannot execute update");
+                e.printStackTrace();
+            }
+
+            finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    }
+                    catch (SQLException e) {
+                        logger.warning("cannot close statement");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.warning("Unable to prepare statement");
+            e.printStackTrace();
+        }
+    }
+
+    public static String getPlayerTeam(String player) {
+        reopenIfClosed();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT " + TeamInfo.NAME.name + ", " + TeamInfo.PLAYERS.name + " FROM " + teamsTabName);
+
+            try {
+                ResultSet rs = ps.executeQuery();
+
+                try {
+                    while (rs.next()) {
+                        String resPlayers = rs.getString(TeamInfo.PLAYERS.name);
+                        if (resPlayers == null)
+                            continue;
+
+                        if (resPlayers.contains(player))
+                            return rs.getString(TeamInfo.NAME.name);
+                    }
+                } catch (SQLException e) {
+                    logger.warning("Cannot get teamInfo from database");
+                    e.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                logger.warning("cannot execute query");
+                e.printStackTrace();
+            }
+
+            finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    }
+                    catch (SQLException e) {
+                        logger.warning("cannot close statement");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.warning("Unable to prepare statement");
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static List<String> getAllTeams() {
+        reopenIfClosed();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT " + TeamInfo.NAME.name + " FROM " + teamsTabName);
+
+            try {
+                ResultSet rs = ps.executeQuery();
+
+                try {
+                    List<String> resteams = new ArrayList<>();
+
+                    while (rs.next())
+                        resteams.add(rs.getString(TeamInfo.NAME.name));
+
+                    return resteams;
+
+                } catch (SQLException e) {
+                    logger.warning("Cannot get team names from database");
+                    e.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                logger.warning("cannot execute query");
+                e.printStackTrace();
+            }
+
+            finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    }
+                    catch (SQLException e) {
+                        logger.warning("cannot close statement");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.warning("Unable to prepare statement");
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    public static void createTeam(String teamName, Player player) {
+        reopenIfClosed();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + teamsTabName + "(" + TeamInfo.NAME.name + "," + TeamInfo.PLAYERS.name + "," + TeamInfo.LEADER.name + "," + TeamInfo.ECONOMY.name + "," + TeamInfo.WARP.name + ")VALUES(?, ?, ?, ?, ?)");
+
+            try {
+                ps.setString(1, teamName);
+                ps.setString(2, player.getName());
+                ps.setString(3, player.getName());
+                ps.setString(4, null);
+                ps.setString(5, null);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                logger.warning("cannot execute update");
+                e.printStackTrace();
+            }
+
+            finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    }
+                    catch (SQLException e) {
+                        logger.warning("cannot close statement");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.warning("Unable to prepare statement");
+            e.printStackTrace();
+        }
+    }
 
     public static void createTable(String tabName) {
         if (tabName != null) {
@@ -22,7 +244,7 @@ public class MySQLConnector {
                 Statement stmt = con.createStatement();
 
                 try {
-                    String sql = "CREATE TABLE " + tabName + "(name VARCHAR(24) not NULL, players VARCHAR(1000) DEFAULT NULL, eco INTEGER DEFAULT NULL, warp VARCHAR(1000) DEFAULT NULL, rank INTEGER DEFAULT NULL)";
+                    String sql = "CREATE TABLE " + tabName + "(" + TeamInfo.NAME.name + " VARCHAR(24) not NULL, " + TeamInfo.PLAYERS.name + " VARCHAR(1000) DEFAULT NULL, " + TeamInfo.LEADER.name + " VARCHAR(24) DEFAULT NULL, " + TeamInfo.ECONOMY.name + " INTEGER DEFAULT NULL, " + TeamInfo.WARP.name + " VARCHAR(1000) DEFAULT NULL)";
                     stmt.executeUpdate(sql);
                     logger.info("Successfully created " + tabName + " table in given database");
                 } catch (SQLException e) {
@@ -64,9 +286,9 @@ public class MySQLConnector {
         openConnexion();
 
         try {
-            if (!checkTableExistence(tabName)) {
-                logger.info("Table " + tabName + " not found in database, will attempt to create one");
-                createTable(tabName);
+            if (!checkTableExistence(teamsTabName)) {
+                logger.info("Table " + teamsTabName + " not found in database, will attempt to create one");
+                createTable(teamsTabName);
             }
         } catch (SQLException e) {
             logger.warning("Unable to check table existence in database");
