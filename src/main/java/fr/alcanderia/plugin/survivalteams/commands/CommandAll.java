@@ -16,10 +16,14 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         switch (args[0]) {
+            case "list":
+                return new CommandList().onCommand(sender, command, label, new String[0]);
             case "info":
                 return new CommandInfo().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
             case "create":
                 return new CommandCreate().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
+            case "disband":
+                return new CommandDisband().onCommand(sender, command, label, new String[0]);
 //            case "remove":
 //                return new CommandSyncInv().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
             case "members":
@@ -45,8 +49,10 @@ public class CommandAll implements CommandExecutor, TabCompleter {
         final List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
+            commands.add("list");
             commands.add("info");
             commands.add("create");
+            commands.add("disband");
             commands.add("members");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length >= 2) {
@@ -59,6 +65,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                     break;
                 case "members":
                     completions.addAll(new CommandMembers().onTabComplete(sender, command, alias, Arrays.copyOfRange(args, 1, args.length)));
+                    break;
+                default:
                     break;
             }
         }

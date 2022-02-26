@@ -18,11 +18,15 @@ public class CommandCreate implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1 && sender instanceof Player) {
-            if (TeamHelper.checkTeamExistence(args[0])) {
-                MessageSender.sendWarningMessage(sender, "That team already exists");
+            if (TeamHelper.getPlayerTeam(sender.getName()) != null) {
+                if (TeamHelper.checkTeamExistence(args[0])) {
+                    MessageSender.sendWarningMessage(sender, "That team already exists");
+                } else {
+                    MySQLConnector.createTeam(args[0], (Player) sender);
+                    MessageSender.sendMessage(sender, "Team successfully created");
+                }
             } else {
-                MySQLConnector.createTeam(args[0], (Player) sender);
-                MessageSender.sendMessage(sender, "Team successfully created");
+                MessageSender.sendWarningMessage(sender, "You are already in a team");
             }
         } else {
             MessageSender.sendUsage(sender, "/st create <teamName>");

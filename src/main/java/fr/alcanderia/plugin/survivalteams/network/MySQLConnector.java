@@ -2,13 +2,10 @@ package fr.alcanderia.plugin.survivalteams.network;
 
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.utils.TeamInfo;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Team;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -221,6 +218,37 @@ public class MySQLConnector {
             }
 
             finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    }
+                    catch (SQLException e) {
+                        logger.warning("cannot close statement");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.warning("Unable to prepare statement");
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeTeam(String teamName) {
+        reopenIfClosed();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("REMOVE FROM " + teamName + " WHERE " + TeamInfo.NAME.name + " = ?");
+
+            try {
+                ps.setString(1, teamName);
+                ps.executeUpdate();
+
+            } catch (SQLException e) {
+                logger.warning("cannot execute update");
+                e.printStackTrace();
+            } finally {
                 if (ps != null) {
                     try {
                         ps.close();

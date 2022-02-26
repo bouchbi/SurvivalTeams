@@ -29,27 +29,34 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
             } else if (Objects.equals(args[0], "add") || Objects.equals(args[0], "remove")) {
                 String playerTeam = TeamHelper.getPlayerTeam(sender.getName());
 
-                if (sender.getName().equals(TeamHelper.getTeamLeader(playerTeam))) {
-                    boolean isPlInTeam = Objects.requireNonNull(TeamHelper.getTeamPlayers(playerTeam)).contains(args[1]);
+                if (playerTeam != null) {
+                    if (sender.getName().equals(TeamHelper.getTeamLeader(playerTeam))) {
+                        boolean isPlInTeam = Objects.requireNonNull(TeamHelper.getTeamPlayers(playerTeam)).contains(args[1]);
 
-                    if (Objects.equals(args[0], "add")) {
-                        if (!isPlInTeam) {
-                            TeamHelper.addPlayer(TeamHelper.getPlayerTeam(sender.getName()), args[1]);
-                            MessageSender.sendMessage(sender, args[1] + " successfully recruited in your team");
-                        } else {
-                            MessageSender.sendWarningMessage(sender, args[1] + " is already in your team");
+                        if (Objects.equals(args[0], "add")) {
+                            if (!isPlInTeam) {
+                                TeamHelper.addPlayer(TeamHelper.getPlayerTeam(sender.getName()), args[1]);
+                                MessageSender.sendMessage(sender, args[1] + " successfully recruited in your team");
+                            } else {
+                                MessageSender.sendWarningMessage(sender, args[1] + " is already in your team");
+                            }
+                        } else if (Objects.equals(args[0], "remove")) {
+                            if (sender.getName().equals(args[1])) {
+                                MessageSender.sendWarningMessage(sender, "If you want to leave your team, please use /st quit");
+                            }
+                            if (isPlInTeam) {
+                                TeamHelper.removePlayer(TeamHelper.getPlayerTeam(sender.getName()), args[1]);
+                                MessageSender.sendMessage(sender, args[1] + " successfully struck off your team");
+                            } else {
+                                MessageSender.sendWarningMessage(sender, args[1] + " is not in your team");
+                            }
                         }
-                    } else if (Objects.equals(args[0], "remove")) {
-                        if (isPlInTeam) {
-                            TeamHelper.removePlayer(TeamHelper.getPlayerTeam(sender.getName()), args[1]);
-                            MessageSender.sendMessage(sender, args[1] + " successfully struck off your team");
-                        } else {
-                            MessageSender.sendWarningMessage(sender, args[1] + " is not in your team");
-                        }
+
+                    } else {
+                        MessageSender.sendWarningMessage(sender, "You don't have the permission to do that, ask to your team leader");
                     }
-
                 } else {
-                    MessageSender.sendWarningMessage(sender, "You don't have the permission to do that, ask to your team leader");
+                    MessageSender.sendWarningMessage(sender, "You are not in a team");
                 }
             }
         }
