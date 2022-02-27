@@ -18,7 +18,7 @@ public class CommandCreate implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1 && sender instanceof Player) {
-            if (TeamHelper.getPlayerTeam(sender.getName()) != null) {
+            if (TeamHelper.getPlayerTeam(sender.getName()) == null) {
                 if (TeamHelper.checkTeamExistence(args[0])) {
                     MessageSender.sendWarningMessage(sender, "That team already exists");
                 } else {
@@ -37,7 +37,9 @@ public class CommandCreate implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        completions.add("enter team name");
+        if (args.length == 1) {
+            completions.add("enter team name");
+        }
         Collections.sort(completions);
         return completions;
     }

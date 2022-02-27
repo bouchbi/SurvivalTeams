@@ -15,29 +15,30 @@ public class CommandAll implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0]) {
             case "list":
                 return new CommandList().onCommand(sender, command, label, new String[0]);
             case "info":
-                return new CommandInfo().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
+                return new CommandInfo().onCommand(sender, command, label, newArgs);
             case "create":
-                return new CommandCreate().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
+                return new CommandCreate().onCommand(sender, command, label, newArgs);
             case "disband":
                 return new CommandDisband().onCommand(sender, command, label, new String[0]);
-//            case "remove":
-//                return new CommandSyncInv().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
             case "members":
-                return new CommandMembers().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
+                return new CommandMembers().onCommand(sender, command, label, newArgs);
+            case "warp":
+                return new CommandWarp().onCommand(sender, command, label, newArgs);
+            case "rank":
+                return new CommandRank().onCommand(sender, command, label, newArgs);
+            case "quit":
+                return new CommandQuit().onCommand(sender, command, label, new String[0]);
+            case "nameLeader":
+                return new CommandNameLeader().onCommand(sender, command, label, newArgs);
+//            case "remove":
+//                return new CommandSyncInv().onCommand(sender, command, label, newArgs);
 //            case "rank":
-//                return new CommandWriteInv().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
-//            case "list":
-//                return new CommandWriteInv().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
-//            case "setwarp":
-//                return new CommandWriteInv().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
-//            case "warp":
-//                return new CommandWriteInv().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
-//            case "delwarp":
-//                return new CommandWriteInv().onCommand(sender, command, label, Arrays.copyOfRange(args, 1, args.length));
+//                return new CommandWriteInv().onCommand(sender, command, label, newArgs);
             default:
                 return false;
         }
@@ -54,19 +55,32 @@ public class CommandAll implements CommandExecutor, TabCompleter {
             commands.add("create");
             commands.add("disband");
             commands.add("members");
+            commands.add("warp");
+            commands.add("rank");
+            commands.add("quit");
+            commands.add("nameLeader");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length >= 2) {
+            String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0]) {
+                default:
+                    break;
                 case "info":
-                    completions.addAll(new CommandInfo().onTabComplete(sender, command, alias, Arrays.copyOfRange(args, 1, args.length)));
+                    completions.addAll(new CommandInfo().onTabComplete(sender, command, alias, newArgs));
                     break;
                 case "create":
-                    completions.addAll(new CommandCreate().onTabComplete(sender, command, alias, Arrays.copyOfRange(args, 1, args.length)));
+                    completions.addAll(new CommandCreate().onTabComplete(sender, command, alias, newArgs));
                     break;
                 case "members":
-                    completions.addAll(new CommandMembers().onTabComplete(sender, command, alias, Arrays.copyOfRange(args, 1, args.length)));
+                    completions.addAll(new CommandMembers().onTabComplete(sender, command, alias, newArgs));
                     break;
-                default:
+                case "warp":
+                    completions.addAll(new CommandWarp().onTabComplete(sender, command, alias, newArgs));
+                case "rank":
+                    completions.addAll(new CommandRank().onTabComplete(sender, command, alias, newArgs));
+                    break;
+                case "nameLeader":
+                    completions.addAll(new CommandNameLeader().onTabComplete(sender, command, alias, newArgs));
                     break;
             }
         }

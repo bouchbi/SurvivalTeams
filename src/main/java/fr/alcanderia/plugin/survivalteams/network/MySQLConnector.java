@@ -5,9 +5,7 @@ import fr.alcanderia.plugin.survivalteams.utils.TeamInfo;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class MySQLConnector {
@@ -49,14 +47,11 @@ public class MySQLConnector {
             } catch (SQLException e) {
                 logger.warning("cannot execute query");
                 e.printStackTrace();
-            }
-
-            finally {
+            } finally {
                 if (ps != null) {
                     try {
                         ps.close();
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         logger.warning("cannot close statement");
                         e.printStackTrace();
                     }
@@ -84,14 +79,11 @@ public class MySQLConnector {
             } catch (SQLException e) {
                 logger.warning("cannot execute update");
                 e.printStackTrace();
-            }
-
-            finally {
+            } finally {
                 if (ps != null) {
                     try {
                         ps.close();
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         logger.warning("cannot close statement");
                         e.printStackTrace();
                     }
@@ -130,14 +122,11 @@ public class MySQLConnector {
             } catch (SQLException e) {
                 logger.warning("cannot execute query");
                 e.printStackTrace();
-            }
-
-            finally {
+            } finally {
                 if (ps != null) {
                     try {
                         ps.close();
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         logger.warning("cannot close statement");
                         e.printStackTrace();
                     }
@@ -147,7 +136,6 @@ public class MySQLConnector {
         } catch (SQLException e) {
             logger.warning("Unable to prepare statement");
             e.printStackTrace();
-            return null;
         }
         return null;
     }
@@ -177,14 +165,11 @@ public class MySQLConnector {
             } catch (SQLException e) {
                 logger.warning("cannot execute query");
                 e.printStackTrace();
-            }
-
-            finally {
+            } finally {
                 if (ps != null) {
                     try {
                         ps.close();
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         logger.warning("cannot close statement");
                         e.printStackTrace();
                     }
@@ -194,7 +179,54 @@ public class MySQLConnector {
         } catch (SQLException e) {
             logger.warning("Unable to prepare statement");
             e.printStackTrace();
-            return null;
+        }
+        return null;
+    }
+
+    public static HashMap<String, Integer> getTeamTop() {
+        reopenIfClosed();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT " + TeamInfo.NAME.name + ", " + TeamInfo.ECONOMY.name + " FROM " + teamsTabName);
+
+            try {
+                ResultSet rs = ps.executeQuery();
+
+                try {
+                    HashMap<Integer, String> teams = new HashMap<>();
+
+                    while (rs.next())
+                        teams.put(rs.getInt(TeamInfo.ECONOMY.name), rs.getString(TeamInfo.NAME.name));
+
+                    List<Integer> teamEco = new ArrayList<>(teams.keySet());
+                    Collections.sort(teamEco);
+
+                    HashMap<String, Integer> teamSorted = new HashMap<>();
+                    teamEco.forEach(tEco -> teamSorted.put(teams.get(tEco), tEco));
+
+                    return teamSorted;
+                } catch (SQLException e) {
+                    logger.warning("Cannot get team names and eco from database");
+                    e.printStackTrace();
+                }
+
+            } catch (SQLException e) {
+                logger.warning("cannot execute query");
+                e.printStackTrace();
+            } finally {
+                if (ps != null) {
+                    try {
+                        ps.close();
+                    } catch (SQLException e) {
+                        logger.warning("cannot close statement");
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            logger.warning("Unable to prepare statement");
+            e.printStackTrace();
         }
         return null;
     }
@@ -215,14 +247,11 @@ public class MySQLConnector {
             } catch (SQLException e) {
                 logger.warning("cannot execute update");
                 e.printStackTrace();
-            }
-
-            finally {
+            } finally {
                 if (ps != null) {
                     try {
                         ps.close();
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         logger.warning("cannot close statement");
                         e.printStackTrace();
                     }
@@ -239,7 +268,7 @@ public class MySQLConnector {
         reopenIfClosed();
 
         try {
-            PreparedStatement ps = con.prepareStatement("REMOVE FROM " + teamName + " WHERE " + TeamInfo.NAME.name + " = ?");
+            PreparedStatement ps = con.prepareStatement("REMOVE FROM " + teamsTabName + " WHERE " + TeamInfo.NAME.name + " = ?");
 
             try {
                 ps.setString(1, teamName);
@@ -252,8 +281,7 @@ public class MySQLConnector {
                 if (ps != null) {
                     try {
                         ps.close();
-                    }
-                    catch (SQLException e) {
+                    } catch (SQLException e) {
                         logger.warning("cannot close statement");
                         e.printStackTrace();
                     }

@@ -2,11 +2,9 @@ package fr.alcanderia.plugin.survivalteams.utils;
 
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TeamHelper {
 
@@ -58,6 +56,10 @@ public class TeamHelper {
         return MySQLConnector.getInfo(teamName, TeamInfo.LEADER);
     }
 
+    public static void setleader(String teamName, String newLeaderName) {
+        MySQLConnector.updateInfo(teamName, TeamInfo.LEADER, newLeaderName);
+    }
+
     public static int[] getTeamWarpLocation(String teamName) {
         String res = MySQLConnector.getInfo(teamName, TeamInfo.WARP);
 
@@ -69,7 +71,15 @@ public class TeamHelper {
             return null;
     }
 
+    public static void setTeamWarpLocation(String teamName, List<String> coords) {
+        MySQLConnector.updateInfo(teamName, TeamInfo.WARP, String.join(";", coords));
+    }
+
     public static boolean checkTeamExistence(String teamName) {
         return Objects.requireNonNull(MySQLConnector.getAllTeams()).contains(teamName);
+    }
+
+    public static HashMap<String, Integer> getTeamTop() {
+        return MySQLConnector.getTeamTop();
     }
 }

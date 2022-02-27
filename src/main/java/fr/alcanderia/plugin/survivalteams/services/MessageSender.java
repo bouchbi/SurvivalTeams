@@ -18,4 +18,8 @@ public class MessageSender {
     public static void sendUsage(CommandSender sender, String usage) {
         sender.sendMessage(messagePrefix + ChatColor.RED + "Correct usage for this command is : " + usage);
     }
+
+    public static void sendWithoutPrefix(CommandSender sender,  String msg) {
+        sender.sendMessage(ChatColor.GREEN + msg);
+    }
 }
