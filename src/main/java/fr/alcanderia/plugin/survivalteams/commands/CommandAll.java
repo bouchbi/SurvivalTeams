@@ -37,10 +37,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                 return new CommandQuit().onCommand(sender, command, label, new String[0]);
             case "nameLeader":
                 return new CommandNameLeader().onCommand(sender, command, label, newArgs);
-//            case "remove":
-//                return new CommandSyncInv().onCommand(sender, command, label, newArgs);
-//            case "rank":
-//                return new CommandWriteInv().onCommand(sender, command, label, newArgs);
+            case "admin":
+                return new CommandAdmin().onCommand(sender, command, label, newArgs);
             default:
                 return true;
         }
@@ -62,6 +60,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
             commands.add("rank");
             commands.add("quit");
             commands.add("nameLeader");
+            commands.add("admin");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length >= 2) {
             String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
@@ -84,6 +83,9 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                     break;
                 case "nameLeader":
                     completions.addAll(new CommandNameLeader().onTabComplete(sender, command, alias, newArgs));
+                    break;
+                case "admin":
+                    completions.addAll(new CommandAdmin().onTabComplete(sender, command, alias, newArgs));
                     break;
             }
         }
