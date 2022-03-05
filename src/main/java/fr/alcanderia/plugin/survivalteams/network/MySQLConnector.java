@@ -268,7 +268,7 @@ public class MySQLConnector {
         reopenIfClosed();
 
         try {
-            PreparedStatement ps = con.prepareStatement("REMOVE FROM " + teamsTabName + " WHERE " + TeamInfo.NAME.name + " = ?");
+            PreparedStatement ps = con.prepareStatement("DELETE FROM " + teamsTabName + " WHERE " + TeamInfo.NAME.name + " = ?");
 
             try {
                 ps.setString(1, teamName);
