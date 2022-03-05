@@ -19,6 +19,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
         switch (args[0]) {
             case "list":
                 return new CommandList().onCommand(sender, command, label, new String[0]);
+            case "top":
+                return new CommandTop().onCommand(sender, command, label, newArgs);
             case "info":
                 return new CommandInfo().onCommand(sender, command, label, newArgs);
             case "create":
@@ -40,7 +42,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
 //            case "rank":
 //                return new CommandWriteInv().onCommand(sender, command, label, newArgs);
             default:
-                return false;
+                return true;
         }
     }
 
@@ -51,6 +53,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
 
         if (args.length == 1) {
             commands.add("list");
+            commands.add("top");
             commands.add("info");
             commands.add("create");
             commands.add("disband");

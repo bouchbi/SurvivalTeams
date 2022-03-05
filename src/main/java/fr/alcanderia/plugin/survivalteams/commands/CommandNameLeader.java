@@ -52,7 +52,12 @@ public class CommandNameLeader implements CommandExecutor, TabCompleter {
         List<String> commands = new ArrayList<>();
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            Bukkit.getOnlinePlayers().forEach(pl -> commands.add(pl.getName()));
+            String plTeam = TeamHelper.getPlayerTeam(sender.getName());
+            if (plTeam != null) {
+                List<String> players = TeamHelper.getTeamPlayers(plTeam);
+                players.remove(sender.getName());
+                commands.addAll(players);
+            }
             StringUtil.copyPartialMatches(args[0], commands, completions);
         }
         Collections.sort(completions);

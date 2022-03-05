@@ -183,7 +183,7 @@ public class MySQLConnector {
         return null;
     }
 
-    public static HashMap<String, Integer> getTeamTop() {
+    public static List<String> getTeamTop() {
         reopenIfClosed();
 
         try {
@@ -201,8 +201,8 @@ public class MySQLConnector {
                     List<Integer> teamEco = new ArrayList<>(teams.keySet());
                     Collections.sort(teamEco);
 
-                    HashMap<String, Integer> teamSorted = new HashMap<>();
-                    teamEco.forEach(tEco -> teamSorted.put(teams.get(tEco), tEco));
+                    List<String> teamSorted = new ArrayList<>();
+                    teamEco.forEach(tEco -> teamSorted.add(teams.get(tEco)));
 
                     return teamSorted;
                 } catch (SQLException e) {
@@ -241,7 +241,7 @@ public class MySQLConnector {
                 ps.setString(1, teamName);
                 ps.setString(2, player.getName());
                 ps.setString(3, player.getName());
-                ps.setString(4, null);
+                ps.setInt(4, 0);
                 ps.setString(5, null);
                 ps.executeUpdate();
             } catch (SQLException e) {

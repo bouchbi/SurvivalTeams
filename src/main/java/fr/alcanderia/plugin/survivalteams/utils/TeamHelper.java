@@ -79,7 +79,11 @@ public class TeamHelper {
         return Objects.requireNonNull(MySQLConnector.getAllTeams()).contains(teamName);
     }
 
-    public static HashMap<String, Integer> getTeamTop() {
+    public static List<String> getTeamTop() {
         return MySQLConnector.getTeamTop();
+    }
+
+    public static void disbandTeam(String teamName) {
+        MySQLConnector.removeTeam(teamName);
     }
 }

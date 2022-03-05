@@ -1,4 +1,4 @@
-package fr.alcanderia.plugin.survivalteams.commands;
+package fr.alcanderia.plugin.survivalteams.commands.admin;
 
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
@@ -12,26 +12,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CommandRank implements CommandExecutor, TabCompleter {
+public class CommandDisbandA implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            String teamName = args[0];
-            if (TeamHelper.checkTeamExistence(teamName)) {
-                List<String> top = TeamHelper.getTeamTop();
+            String team = args[0];
 
-                if (top != null && !top.isEmpty()) {
-                    top.forEach(t -> {
-                        if (t.equals(teamName))
-                            MessageSender.sendMessage(sender, teamName + " is ranked " + (top.indexOf(t) + 1) + " with an economy of " + TeamHelper.getTeamEconomy(t));
-                    });
-                }
+            if (TeamHelper.checkTeamExistence(team)) {
+                TeamHelper.disbandTeam(team);
+                MessageSender.sendMessage(sender, "You disbanded " + team);
             } else {
-                MessageSender.sendWarningMessage(sender, teamName + " does not exist");
+                MessageSender.sendWarningMessage(sender, "Team not found");
             }
         } else {
-            MessageSender.sendUsage(sender, "/st rank <team>");
+            MessageSender.sendUsage(sender, "/st admin disband <team>");
         }
 
         return true;
@@ -39,11 +34,10 @@ public class CommandRank implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        final List<String> commands = new ArrayList<>();
         final List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            commands.addAll(TeamHelper.getAllTeams());
+            final List<String> commands = new ArrayList<>(TeamHelper.getAllTeams());
             StringUtil.copyPartialMatches(args[0], commands, completions);
             Collections.sort(completions);
         }
