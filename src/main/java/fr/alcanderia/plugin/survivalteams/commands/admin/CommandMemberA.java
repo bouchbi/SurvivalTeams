@@ -7,11 +7,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class CommandMemberA implements CommandExecutor, TabCompleter {
 
@@ -64,12 +66,17 @@ public class CommandMemberA implements CommandExecutor, TabCompleter {
             completions.add("add");
             completions.add("remove");
             StringUtil.copyPartialMatches(args[0], commands, completions);
-        }
-        else if (args.length == 2) {
+        } else if (args.length == 2) {
             completions.addAll(TeamHelper.getAllTeams());
             StringUtil.copyPartialMatches(args[1], commands, completions);
-        } else if (args.length == 3) {
-            Bukkit.getOnlinePlayers().forEach(pl -> completions.add(pl.getName()));
+        } else if (args.length == 3 && sender instanceof Player) {
+            if (args[0].equals("add")) {
+                Bukkit.getOnlinePlayers().forEach(pl -> completions.add(pl.getName()));
+                completions.removeAll(Objects.requireNonNull(TeamHelper.getTeamPlayers(args[1])));
+            } else if (args[0].equals("remove")) {
+                completions.addAll(Objects.requireNonNull(TeamHelper.getTeamPlayers(args[1])));
+                completions.remove(sender.getName());
+            }
             StringUtil.copyPartialMatches(args[2], commands, completions);
         }
 
