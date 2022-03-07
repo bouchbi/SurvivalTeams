@@ -20,6 +20,7 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1 && sender instanceof Player) {
+            Player player = (Player) sender;
             String plTeam = TeamHelper.getPlayerTeam(sender.getName());
 
             if (plTeam != null) {
@@ -27,9 +28,9 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                     switch (args[0]) {
                         case "set":
                             List<String> coords = new ArrayList<>();
-                            coords.add(String.valueOf(((Player) sender).getLocation().getX()));
-                            coords.add(String.valueOf(((Player) sender).getLocation().getY()));
-                            coords.add(String.valueOf(((Player) sender).getLocation().getZ()));
+                            coords.add(String.valueOf(player.getLocation().getX()));
+                            coords.add(String.valueOf(player.getLocation().getY()));
+                            coords.add(String.valueOf(player.getLocation().getZ()));
                             TeamHelper.setTeamWarpLocation(plTeam, coords);
                             MessageSender.sendMessage(sender, "Successfully updated warp location to your current location");
                             break;

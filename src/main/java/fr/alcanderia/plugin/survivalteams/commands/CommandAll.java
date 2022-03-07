@@ -17,6 +17,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0]) {
+            case "confirmation":
+                return new CommandConfirmation().onCommand(sender, command, label, newArgs);
             case "list":
                 return new CommandList().onCommand(sender, command, label, new String[0]);
             case "top":
@@ -50,6 +52,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
         final List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
+            commands.add("confirmation");
             commands.add("list");
             commands.add("top");
             commands.add("info");
@@ -66,6 +69,9 @@ public class CommandAll implements CommandExecutor, TabCompleter {
             String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0]) {
                 default:
+                    break;
+                case "confirmation":
+                    completions.addAll(new CommandConfirmation().onTabComplete(sender, command, alias, newArgs));
                     break;
                 case "info":
                     completions.addAll(new CommandInfo().onTabComplete(sender, command, alias, newArgs));

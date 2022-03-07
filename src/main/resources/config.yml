@@ -4,21 +4,39 @@
 #                                     #
 #######################################
 
-#Select the data storage (.txt files in local or in database)
-#Valid values are 'file', 'mysql'
+# Select the data storage (.txt files in local or in database)
+# Valid values are 'file', 'mysql'
 dataStorage: 'file'
 
-#SQL Configuration
+# SQL Configuration
 sqlCredentials:
-  #the IP address of your host, ex: XXX.XX.XXX.XX
+  # The IP address of your host, ex: XXX.XX.XXX.XX
   host: 'yourhost'
-  #The port to connect to the database, commonly 3306
+  # The port to connect to the database, commonly 3306
   port: 'portofyourdb'
-  #Username for the connexion
+  # Username for the connexion
   user: 'username'
-  #Password for the connexion
+  # Password for the connexion
   password: 'password'
-  #Name of the database
+  # Name of the database
   dbName: 'dbname'
-  #Prefix of the tables created by SurvivalTeams
+  # Prefix of the tables created by SurvivalTeams
   dbTablesPrefix: 'Teams'
+
+# Commands parameters
+commands:
+  # Whether to ask for confirmation on performing these commands
+  # All the following apply only for the team leader
+  confirmationOn:
+    # memberAdd: true -> the player added by the team leader will be sent an invitation he can either accept or decline
+    # memberAdd: false -> the player will be added by the team leader without asking
+    memberAdd: true
+    disband: true
+    nameLeader: true
+    quit: true
+  # This is the maximum amount of teams that can be displayed with /st top
+  # Reducing this number may optimize server performances
+  topMaxRank: 20
+
+# A list of all the worlds warps are enabled in
+warpsWorlds: ["world", "world_nether", "world_the_end"]
