@@ -1,5 +1,7 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.ConfigHandler;
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.ChatColor;
@@ -12,6 +14,8 @@ import java.util.AbstractMap;
 
 public class CommandDisband implements CommandExecutor {
 
+    public static ConfigHandler config = Survivalteams.getConfiguration();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0 && sender instanceof Player) {
@@ -19,8 +23,12 @@ public class CommandDisband implements CommandExecutor {
             String plTeam = TeamHelper.getPlayerTeam(pl.getName());
             if (plTeam != null) {
                 if (TeamHelper.getTeamLeader(plTeam).equals(pl.getName())) {
-                    CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), plTeam));
-                    MessageSender.sendMessage(pl, "In order to confirm your action, you have " + ChatColor.RED + " 30s " + ChatColor.RESET + "to confirm using /st confirmation confirm");
+                    if (!CommandConfirmation.lastCommands.containsKey(pl)) {
+                        CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), plTeam));
+                        MessageSender.sendMessage(pl, "In order to confirm your action, you have " + ChatColor.RED + config.getInt("commands.confirmationDelay") + "s " + ChatColor.GREEN + "to confirm using /st confirmation confirm");
+                    } else {
+                        MessageSender.sendWarningMessage(pl, "Cannot send confirmation, you already have one pending");
+                    }
                 } else {
                     MessageSender.sendWarningMessage(pl, "You don't have the permission to do that, ask to your team leader");
                 }

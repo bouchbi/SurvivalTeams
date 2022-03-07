@@ -7,12 +7,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class CommandMembers implements CommandExecutor, TabCompleter {
 
@@ -26,17 +24,23 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                     MessageSender.sendWarningMessage(sender, "This team does not exists");
                 }
 
-            } else if (Objects.equals(args[0], "add") || Objects.equals(args[0], "remove")) {
+            } else if (Objects.equals(args[0], "invite") || Objects.equals(args[0], "remove")) {
                 String playerTeam = TeamHelper.getPlayerTeam(sender.getName());
 
                 if (playerTeam != null) {
                     if (sender.getName().equals(TeamHelper.getTeamLeader(playerTeam))) {
                         boolean isPlInTeam = Objects.requireNonNull(TeamHelper.getTeamPlayers(playerTeam)).contains(args[1]);
 
-                        if (Objects.equals(args[0], "add")) {
+                        if (Objects.equals(args[0], "invite") && sender instanceof Player) {
+                            Player plInvited = Bukkit.getPlayer(args[1]);
                             if (!isPlInTeam) {
-                                TeamHelper.addPlayer(TeamHelper.getPlayerTeam(sender.getName()), args[1]);
-                                MessageSender.sendMessage(sender, args[1] + " successfully recruited in your team");
+                                if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
+                                    CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
+                                    CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
+                                    MessageSender.sendMessage(sender, plInvited.getName() + " has received an invitation he has to accept in order to be recruited in your team");
+                                } else {
+                                    MessageSender.sendWarningMessage(sender, plInvited.getName() + " already has an invitation pending");
+                                }
                             } else {
                                 MessageSender.sendWarningMessage(sender, args[1] + " is already in your team");
                             }
@@ -59,6 +63,8 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                     MessageSender.sendWarningMessage(sender, "You are not in a team");
                 }
             }
+        } else {
+            MessageSender.sendUsage(sender, "/st members invite|remove|list <player|team>");
         }
 
         return true;
@@ -71,7 +77,7 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
 
         if (args.length == 1) {
             commands.add("list");
-            commands.add("add");
+            commands.add("invite");
             commands.add("remove");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2) {

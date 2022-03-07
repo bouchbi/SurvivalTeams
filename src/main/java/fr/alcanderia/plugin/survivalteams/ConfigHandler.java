@@ -52,6 +52,15 @@ public class ConfigHandler {
         }
     }
 
+    public int getInt(String key) {
+        if (!this.plugin.getConfig().contains(key)) {
+            this.plugin.getLogger().warning("Could not find " + key + " in config file, please check if it is correctly written (Or recreate one by deleting it)");
+            return 0;
+        } else {
+            return this.plugin.getConfig().getInt(key);
+        }
+    }
+
     public void updateConfig() {
         Configuration defaults = plugin.getConfig().getDefaults();
         for (String defaultKey : defaults.getKeys(true)) {
