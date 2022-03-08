@@ -1,8 +1,12 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.ConfigHandler;
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,11 +14,14 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class CommandNameLeader implements CommandExecutor, TabCompleter {
+
+    private static ConfigHandler config = Survivalteams.getConfiguration();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -28,8 +35,17 @@ public class CommandNameLeader implements CommandExecutor, TabCompleter {
                         teamPlayers.remove(sender.getName());
                         if (!teamPlayers.isEmpty()) {
                             if (teamPlayers.contains(args[0])) {
-                                TeamHelper.setleader(plTeam, args[0]);
-                                MessageSender.sendMessage(sender, args[0] + " is now the leader of " + plTeam);
+                                if (config.getBoolean("commands.confirmationOn.nameLeader")) {
+                                    if (!CommandConfirmation.lastCommands.containsKey((Player) sender)) {
+                                        CommandConfirmation.lastCommands.put((Player) sender, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.NAME_LEADER, args[0])));
+                                        MessageSender.sendMessage(sender, "In order to confirm your action, you have " + ChatColor.RED + config.getInt("commands.confirmationDelay") + "s " + ChatColor.GREEN + "to confirm using /st confirmation confirm");
+                                    } else {
+                                        MessageSender.sendWarningMessage(sender, "Cannot send confirmation, you already have one pending");
+                                    }
+                                } else {
+                                    TeamHelper.setleader(plTeam, args[0]);
+                                    MessageSender.sendMessage(sender, args[0] + " is the new leader of your team your team");
+                                }
                             } else {
                                 MessageSender.sendWarningMessage(sender, args[0] + "is not in your team");
                             }

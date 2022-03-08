@@ -28,9 +28,9 @@ commands:
   # Whether to ask for confirmation on performing these commands
   # All the following apply only for the team leader
   confirmationOn:
-    # memberAdd: true -> the player added by the team leader will be sent an invitation he can either accept or decline
-    # memberAdd: false -> the player will be added by the team leader without asking
-    memberAdd: true
+    # memberInvite: true -> the player added by the team leader will be sent an invitation he can either accept or decline
+    # memberInvite: false -> the player will be added by the team leader without asking
+    memberInvite: true
     disband: true
     nameLeader: true
     quit: true

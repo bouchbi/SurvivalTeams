@@ -1,8 +1,11 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.ConfigHandler;
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,6 +16,8 @@ import org.bukkit.util.StringUtil;
 import java.util.*;
 
 public class CommandMembers implements CommandExecutor, TabCompleter {
+
+    private static ConfigHandler config = Survivalteams.getConfiguration();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -34,12 +39,17 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                         if (Objects.equals(args[0], "invite") && sender instanceof Player) {
                             Player plInvited = Bukkit.getPlayer(args[1]);
                             if (!isPlInTeam) {
-                                if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
-                                    CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
-                                    CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
-                                    MessageSender.sendMessage(sender, plInvited.getName() + " has received an invitation he has to accept in order to be recruited in your team");
+                                if (config.getBoolean("commands.confirmationOn.memberInvite")) {
+                                    if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
+                                        CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
+                                        CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
+                                        MessageSender.sendMessage(sender, plInvited.getName() + " has received an invitation he has to accept in order to be recruited in your team");
+                                    } else {
+                                        MessageSender.sendWarningMessage(sender, plInvited.getName() + " already has an invitation pending");
+                                    }
                                 } else {
-                                    MessageSender.sendWarningMessage(sender, plInvited.getName() + " already has an invitation pending");
+                                    TeamHelper.addPlayer(plInvited.getName(), playerTeam);
+                                    MessageSender.sendMessage(sender, "You successfully recruited " + ChatColor.GOLD + plInvited.getName());
                                 }
                             } else {
                                 MessageSender.sendWarningMessage(sender, args[1] + " is already in your team");

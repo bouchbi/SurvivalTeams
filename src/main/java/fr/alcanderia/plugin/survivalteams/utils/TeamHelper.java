@@ -25,6 +25,10 @@ public class TeamHelper {
         return MySQLConnector.getPlayerTeam(player);
     }
 
+    public static String getPlayerTeam(Player player) {
+        return MySQLConnector.getPlayerTeam(player.getName());
+    }
+
     public static void addPlayer(String teamName, String playerName) {
         List<String> playersOld = getTeamPlayers(teamName);
         if (!playersOld.contains(playerName)) {
