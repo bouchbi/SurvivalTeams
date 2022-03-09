@@ -1,7 +1,9 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +17,7 @@ public class CommandTop implements CommandExecutor {
         if (args.length == 1) {
             int maxRank = Integer.parseInt(args[0]);
 
-            if (1 <= maxRank && maxRank <= 40) {
+            if (1 <= maxRank && maxRank <= Survivalteams.getConfiguration().getInt("commands.topMaxRank")) {
                 List<String> top = TeamHelper.getTeamTop();
 
                 MessageSender.sendMessage(sender, "Here is the top " + maxRank + " of teams :");
@@ -26,7 +28,7 @@ public class CommandTop implements CommandExecutor {
                         MessageSender.sendWithoutPrefix(sender, (i + 1) + " - " + top.get(i) + " (eco: " + TeamHelper.getTeamEconomy(top.get(i)) + ")");
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, "Please choose a number between 1 and 40");
+                MessageSender.sendWarningMessage(sender, "Please choose a number between" + ChatColor.GOLD + "1" + ChatColor.GREEN + " and " + ChatColor.GOLD + Survivalteams.getConfiguration().getInt("commands.topMaxRank"));
             }
 
         } else {

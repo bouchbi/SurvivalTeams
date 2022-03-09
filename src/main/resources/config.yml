@@ -36,8 +36,10 @@ commands:
     quit: true
   # This is the maximum amount of teams that can be displayed with /st top
   # Reducing this number may optimize server performances
+  # It must be greater or equal than 1
   topMaxRank: 20
   # This is the delay in seconds a player has in order to confirm commands that require confirmation
+  # It must be a positive number
   confirmationDelay: 30
 
 # A list of all the worlds warps are enabled in

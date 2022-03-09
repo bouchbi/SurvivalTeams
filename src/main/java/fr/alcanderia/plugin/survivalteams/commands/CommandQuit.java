@@ -36,7 +36,7 @@ public class CommandQuit implements CommandExecutor {
                         MessageSender.sendMessage(sender, "You have successfully leaved your team, I hope they won't regret");
                     }
                 } else {
-                    MessageSender.sendMessage(sender, "You are the leader of this team, please name a new leader before leaving with /st setLeader <playerName> or disband with /st disband");
+                    MessageSender.sendMessage(sender, "You are the leader of this team, please name a new leader before leaving with /st nameLeader <playerName> or disband with /st disband");
                 }
             } else {
                 MessageSender.sendWarningMessage(sender, "You are not in a team");
