@@ -16,7 +16,6 @@ public class CommandHelp implements CommandExecutor {
         } else {
             MessageSender.sendUsage(sender, "/st help");
         }
-
         return true;
     }
 }

@@ -40,6 +40,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                 return new CommandNameLeader().onCommand(sender, command, label, newArgs);
             case "admin":
                 return new CommandAdmin().onCommand(sender, command, label, newArgs);
+            case "help":
+                return new CommandHelp().onCommand(sender, command, label, new String[0]);
             default:
                 return true;
         }
