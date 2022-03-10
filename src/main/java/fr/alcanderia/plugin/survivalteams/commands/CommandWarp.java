@@ -45,6 +45,8 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
             } else {
                 MessageSender.sendWarningMessage(sender, "You are not in a team");
             }
+        } else {
+            MessageSender.sendUsage(sender, "/st warp set|remove");
         }
 
         return true;

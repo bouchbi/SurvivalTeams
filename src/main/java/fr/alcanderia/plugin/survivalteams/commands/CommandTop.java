@@ -7,10 +7,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class CommandTop implements CommandExecutor {
+public class CommandTop implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -36,5 +39,12 @@ public class CommandTop implements CommandExecutor {
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (args.length == 1)
+            return new ArrayList<>(Collections.singleton("maxRank"));
+        return new ArrayList<>();
     }
 }

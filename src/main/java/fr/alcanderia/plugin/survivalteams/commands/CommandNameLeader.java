@@ -59,6 +59,8 @@ public class CommandNameLeader implements CommandExecutor, TabCompleter {
             } else {
                 MessageSender.sendWarningMessage(sender, "You are not in a team");
             }
+        } else {
+            MessageSender.sendUsage(sender, "/st nameLeader <teamPlayer>");
         }
         return true;
     }

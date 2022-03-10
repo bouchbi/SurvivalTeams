@@ -6,12 +6,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.util.StringUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CommandAll implements CommandExecutor, TabCompleter {
+
+    public static HashMap<String, AbstractMap.SimpleEntry<String, String>> commands = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -48,22 +47,10 @@ public class CommandAll implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        final List<String> commands = new ArrayList<>();
         final List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
-            commands.add("confirmation");
-            commands.add("list");
-            commands.add("top");
-            commands.add("info");
-            commands.add("create");
-            commands.add("disband");
-            commands.add("members");
-            commands.add("warp");
-            commands.add("rank");
-            commands.add("quit");
-            commands.add("nameLeader");
-            commands.add("admin");
+            final List<String> commands = new ArrayList<>(CommandAll.commands.keySet());
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length >= 2) {
             String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
@@ -72,6 +59,9 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                     break;
                 case "confirmation":
                     completions.addAll(new CommandConfirmation().onTabComplete(sender, command, alias, newArgs));
+                    break;
+                case "top":
+                    completions.addAll(new CommandTop().onTabComplete(sender, command, alias, newArgs));
                     break;
                 case "info":
                     completions.addAll(new CommandInfo().onTabComplete(sender, command, alias, newArgs));
@@ -84,6 +74,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                     break;
                 case "warp":
                     completions.addAll(new CommandWarp().onTabComplete(sender, command, alias, newArgs));
+                    break;
                 case "rank":
                     completions.addAll(new CommandRank().onTabComplete(sender, command, alias, newArgs));
                     break;
@@ -97,5 +88,22 @@ public class CommandAll implements CommandExecutor, TabCompleter {
         }
         Collections.sort(completions);
         return completions;
+    }
+
+    public static void regCommands() {
+        regCommand("confirmation", "/st confirmation confirm|cancel", "Allows you to confirm a commands that has high power");
+        regCommand("top", "/st top <maxRank>", "Displays a top of the teams, from 1st to the parameter you specify");
+        regCommand("info", "/st info team|player <team>|<player>", "Returns the informations concerning a specific team/player");
+        regCommand("create", "/st create <teamName>", "Allows you to create a team");
+        regCommand("members", "/st members invite|remove|list <player|team>", "Everything that is linked to your player team, inviting a new one, removing one or displays a list of all of them");
+        regCommand("warp", "/st warp set|remove", "Allows you to set your team's warp to your current location, or to remove it");
+        regCommand("rank", "/st rank <team>", "Returns the rank of the specified team");
+        regCommand("nameLeader", "/st nameLeader <teamPlayer>", "Allows you to name the leader of your team");
+        regCommand("admin", "(/st admin help) to see the list of all commands", "Commands for administration");
+        regCommand("help", "/st help", "Displays the list of all the commands");
+    }
+
+    public static void regCommand(String commands, String usage, String desc) {
+        CommandAll.commands.put(commands, new AbstractMap.SimpleEntry<>(usage, desc));
     }
 }

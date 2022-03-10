@@ -25,6 +25,7 @@ public final class Survivalteams extends JavaPlugin {
 		if (Objects.equals(config.getString("dataStorage"), "mysql")) {
 			MySQLConnector.initConnexion();
 		}
+		CommandAll.regCommands();
 
 		this.getLogger().info("Plugin has started");
 	}
