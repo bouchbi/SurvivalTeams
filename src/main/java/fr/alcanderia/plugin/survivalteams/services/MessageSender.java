@@ -1,5 +1,6 @@
 package fr.alcanderia.plugin.survivalteams.services;
 
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -21,5 +22,9 @@ public class MessageSender {
 
     public static void sendWithoutPrefix(CommandSender sender,  String msg) {
         sender.sendMessage(ChatColor.GREEN + msg);
+    }
+
+    public static void sendEffectMessage(CommandSender sender, TextComponent msg) {
+
     }
 }

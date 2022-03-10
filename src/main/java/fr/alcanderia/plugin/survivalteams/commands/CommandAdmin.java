@@ -1,9 +1,6 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
-import fr.alcanderia.plugin.survivalteams.commands.admin.CommandDisbandA;
-import fr.alcanderia.plugin.survivalteams.commands.admin.CommandMemberA;
-import fr.alcanderia.plugin.survivalteams.commands.admin.CommandSetLeaderA;
-import fr.alcanderia.plugin.survivalteams.commands.admin.CommandWarpA;
+import fr.alcanderia.plugin.survivalteams.commands.admin.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,6 +26,8 @@ public class CommandAdmin implements CommandExecutor, TabCompleter {
                 return new CommandWarpA().onCommand(sender, command, label, newArgs);
             case "setLeader":
                 return new CommandSetLeaderA().onCommand(sender, command, label, newArgs);
+            case "reload":
+                return new CommandReloadA().onCommand(sender, command, label, new String[0]);
             default:
                 return true;
         }
@@ -44,6 +43,7 @@ public class CommandAdmin implements CommandExecutor, TabCompleter {
             commands.add("member");
             commands.add("warp");
             commands.add("setLeader");
+            commands.add("reload");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length >= 2) {
             String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
