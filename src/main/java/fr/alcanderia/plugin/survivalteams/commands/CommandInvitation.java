@@ -2,7 +2,6 @@ package fr.alcanderia.plugin.survivalteams.commands;
 
 import fr.alcanderia.plugin.survivalteams.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
-import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.ChatColor;

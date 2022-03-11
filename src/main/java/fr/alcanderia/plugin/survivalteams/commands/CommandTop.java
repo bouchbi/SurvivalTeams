@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CommandTop implements CommandExecutor, TabCompleter {
@@ -43,8 +42,13 @@ public class CommandTop implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length == 1)
-            return new ArrayList<>(Collections.singleton("maxRank"));
+        if (args.length == 1) {
+            List<String> ints = new ArrayList<>();
+            for (int i = 1; i < Survivalteams.getConfiguration().getInt("commands.topMaxRank"); i++) {
+                ints.add(String.valueOf(i));
+            }
+            return ints;
+        }
         return new ArrayList<>();
     }
 }

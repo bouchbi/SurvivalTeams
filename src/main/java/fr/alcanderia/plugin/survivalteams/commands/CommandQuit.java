@@ -5,7 +5,6 @@ import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,8 +25,10 @@ public class CommandQuit implements CommandExecutor {
                 if (!TeamHelper.getTeamLeader(plTeam).equals(sender.getName())) {
                     if (config.getBoolean("commands.confirmationOn.quit")) {
                         if (!CommandConfirmation.lastCommands.containsKey((Player) sender)) {
+                            // Logic for confirmation command listening
                             CommandConfirmation.lastCommands.put((Player) sender, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.QUIT, plTeam)));
-                            MessageSender.sendMessage(sender, "In order to confirm your action, you have " + ChatColor.RED + config.getInt("commands.confirmationDelay") + "s " + ChatColor.GREEN + "to confirm using /st confirmation confirm");
+                            // Confirmation query message
+                            MessageSender.confirmationMessage((Player) sender);
                         } else {
                             MessageSender.sendWarningMessage(sender, "Cannot send confirmation, you already have one pending");
                         }

@@ -37,8 +37,10 @@ public class CommandNameLeader implements CommandExecutor, TabCompleter {
                             if (teamPlayers.contains(args[0])) {
                                 if (config.getBoolean("commands.confirmationOn.nameLeader")) {
                                     if (!CommandConfirmation.lastCommands.containsKey((Player) sender)) {
+                                        // Logic for confirmation command listening
                                         CommandConfirmation.lastCommands.put((Player) sender, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.NAME_LEADER, args[0])));
-                                        MessageSender.sendMessage(sender, "In order to confirm your action, you have " + ChatColor.RED + config.getInt("commands.confirmationDelay") + "s " + ChatColor.GREEN + "to confirm using /st confirmation confirm");
+                                        // Confirmation query message
+                                        MessageSender.confirmationMessage((Player) sender);
                                     } else {
                                         MessageSender.sendWarningMessage(sender, "Cannot send confirmation, you already have one pending");
                                     }

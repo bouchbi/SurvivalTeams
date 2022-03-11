@@ -16,10 +16,6 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0]) {
-            case "confirmation":
-                return new CommandConfirmation().onCommand(sender, command, label, newArgs);
-            case "invitation":
-                return new CommandInvitation().onCommand(sender, command, label, newArgs);
             case "list":
                 return new CommandList().onCommand(sender, command, label, new String[0]);
             case "top":
@@ -61,12 +57,6 @@ public class CommandAll implements CommandExecutor, TabCompleter {
             switch (args[0]) {
                 default:
                     break;
-                case "confirmation":
-                    completions.addAll(new CommandConfirmation().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "invitation":
-                    completions.addAll(new CommandInvitation().onTabComplete(sender, command, alias, newArgs));
-                    break;
                 case "top":
                     completions.addAll(new CommandTop().onTabComplete(sender, command, alias, newArgs));
                     break;
@@ -98,8 +88,6 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     }
 
     public static void regCommands() {
-        regCommand("confirmation", "/st confirmation confirm|cancel", "Allows you to confirm a commands that has high power");
-        regCommand("invitation", "/st invitation accept|decline", "Allows you to confirm an invitation you have received");
         regCommand("top", "/st top <maxRank>", "Displays a top of the teams, from 1st to the parameter you specify");
         regCommand("list", "/st list", "Displays a list of all the teams");
         regCommand("info", "/st info team|player <team>|<player>", "Returns the informations concerning a specific team/player");

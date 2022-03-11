@@ -4,6 +4,8 @@ import fr.alcanderia.plugin.survivalteams.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -42,9 +44,24 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                                 if (!isPlInTeam) {
                                     if (config.getBoolean("commands.confirmationOn.memberInvite")) {
                                         if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
+                                            // Logic for confirmation command listening
                                             CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
                                             CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
-                                            MessageSender.sendMessage(plInvited, ChatColor.AQUA + sender.getName() + ChatColor.GREEN + " invited you in " + ChatColor.AQUA + playerTeam + ChatColor.GREEN + ". You have " + ChatColor.AQUA + config.getInt("commands.confirmationDelay") + "s" + ChatColor.GREEN + " to either accept or decline with " + ChatColor.AQUA + "/st invitation accept|decline");
+
+                                            // Player Invitation
+                                            TextComponent msgFinal = MessageSender.invitationMessage(sender.getName(), playerTeam);
+                                            TextComponent accept = new TextComponent(ChatColor.DARK_GREEN + "accept" + ChatColor.RESET);
+                                            TextComponent decline = new TextComponent(ChatColor.DARK_RED + "decline" + ChatColor.RESET);
+                                            accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st invitation accept"));
+                                            decline.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st invitation decline"));
+                                            msgFinal.addExtra(ChatColor.RESET + "[ ");
+                                            msgFinal.addExtra(accept);
+                                            msgFinal.addExtra(" | ");
+                                            msgFinal.addExtra(decline);
+                                            msgFinal.addExtra(" ]");
+                                            MessageSender.sendEffectMessageWithPrefix(plInvited, msgFinal);
+
+                                            // Player confirmation
                                             MessageSender.sendMessage(sender, plInvited.getName() + " has received an invitation he has to accept in order to be recruited in your team");
                                         } else {
                                             MessageSender.sendWarningMessage(sender, plInvited.getName() + " already has an invitation pending");
