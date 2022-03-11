@@ -53,7 +53,7 @@ public class MessageSender {
     public static void confirmationMessage(Player receiver) {
         TextComponent finalMsg = new TextComponent(messagePrefix + ChatColor.GOLD + " Are you sure you want to do that ? ");
         TextComponent confirm = new TextComponent(ChatColor.DARK_GREEN + "confirm" + ChatColor.RESET);
-        TextComponent cancel = new TextComponent(ChatColor.DARK_GREEN + "cancel" + ChatColor.RESET);
+        TextComponent cancel = new TextComponent(ChatColor.DARK_RED + "cancel" + ChatColor.RESET);
         confirm.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st confirmation confirm"));
         cancel.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st confirmation cancel"));
         finalMsg.addExtra(ChatColor.RESET + "[ ");

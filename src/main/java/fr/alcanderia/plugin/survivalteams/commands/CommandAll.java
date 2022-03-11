@@ -16,6 +16,10 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
         switch (args[0]) {
+            case "confirmation":
+                return new CommandConfirmation().onCommand(sender, command, label, newArgs);
+            case "invitation":
+                return new CommandInvitation().onCommand(sender, command, label, newArgs);
             case "list":
                 return new CommandList().onCommand(sender, command, label, new String[0]);
             case "top":
