@@ -3,6 +3,7 @@ package fr.alcanderia.plugin.survivalteams.services;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class MessageSender {
 
@@ -24,7 +25,10 @@ public class MessageSender {
         sender.sendMessage(ChatColor.GREEN + msg);
     }
 
-    public static void sendEffectMessage(CommandSender sender, TextComponent msg) {
-
+    public static void sendEffectMessageWithoutPrefix(CommandSender sender, TextComponent msg) {
+        if (sender instanceof Player) {
+            Player pl = (Player) sender;
+            pl.spigot().sendMessage(msg);
+        }
     }
 }

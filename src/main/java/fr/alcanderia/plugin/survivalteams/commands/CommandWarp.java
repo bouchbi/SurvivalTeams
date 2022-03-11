@@ -28,9 +28,9 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                     switch (args[0]) {
                         case "set":
                             List<String> coords = new ArrayList<>();
-                            coords.add(String.valueOf(player.getLocation().getX()));
-                            coords.add(String.valueOf(player.getLocation().getY()));
-                            coords.add(String.valueOf(player.getLocation().getZ()));
+                            coords.add(String.valueOf(Math.round((float) player.getLocation().getX())));
+                            coords.add(String.valueOf(Math.round((float) player.getLocation().getY())));
+                            coords.add(String.valueOf(Math.round((float) player.getLocation().getZ())));
                             TeamHelper.setTeamWarpLocation(plTeam, coords);
                             MessageSender.sendMessage(sender, "Successfully updated warp location to your current location");
                             break;

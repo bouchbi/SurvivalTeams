@@ -17,7 +17,7 @@ public class CommandHelp implements CommandExecutor {
             CommandAll.commands.keySet().forEach(key -> {
                 TextComponent msg = new TextComponent(ChatColor.AQUA + CommandAll.commands.get(key).getKey() + ChatColor.RED + " - " + ChatColor.DARK_GREEN + CommandAll.commands.get(key).getValue());
                 msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/st " + key));
-                //MessageSender.sendWithoutPrefix(sender, msg);
+                MessageSender.sendEffectMessageWithoutPrefix(sender, msg);
             });
         } else {
             MessageSender.sendUsage(sender, "/st help");

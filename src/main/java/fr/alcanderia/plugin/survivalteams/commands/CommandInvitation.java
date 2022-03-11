@@ -34,7 +34,7 @@ public class CommandInvitation implements CommandExecutor, TabCompleter {
                             String teamName = invites.get(pl).getValue();
                             TeamHelper.addPlayer(teamName, pl.getName());
                             MessageSender.sendMessage(pl, "You successfully joined " + ChatColor.GOLD + teamName);
-                            MessageSender.sendMessage(inviter, "You successfully recruited " + ChatColor.GOLD + pl);
+                            MessageSender.sendMessage(inviter, "You successfully recruited " + ChatColor.GOLD + pl.getName());
                         } else {
                             MessageSender.sendMessage(inviter, ChatColor.GOLD + "" + pl + ChatColor.RED + " declined" + ChatColor.RESET + " your invitation");
                             MessageSender.sendMessage(pl, "Declined request");

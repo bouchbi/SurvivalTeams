@@ -63,6 +63,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                     break;
                 case "confirmation":
                     completions.addAll(new CommandConfirmation().onTabComplete(sender, command, alias, newArgs));
+                    break;
                 case "invitation":
                     completions.addAll(new CommandInvitation().onTabComplete(sender, command, alias, newArgs));
                     break;
@@ -100,6 +101,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
         regCommand("confirmation", "/st confirmation confirm|cancel", "Allows you to confirm a commands that has high power");
         regCommand("invitation", "/st invitation accept|decline", "Allows you to confirm an invitation you have received");
         regCommand("top", "/st top <maxRank>", "Displays a top of the teams, from 1st to the parameter you specify");
+        regCommand("list", "/st list", "Displays a list of all the teams");
         regCommand("info", "/st info team|player <team>|<player>", "Returns the informations concerning a specific team/player");
         regCommand("create", "/st create <teamName>", "Allows you to create a team");
         regCommand("members", "/st members invite|remove|list <player|team>", "Everything that is linked to your player team, inviting a new one, removing one or displays a list of all of them");

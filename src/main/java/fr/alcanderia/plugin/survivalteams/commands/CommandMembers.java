@@ -38,21 +38,26 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
 
                         if (Objects.equals(args[0], "invite") && sender instanceof Player) {
                             Player plInvited = Bukkit.getPlayer(args[1]);
-                            if (!isPlInTeam) {
-                                if (config.getBoolean("commands.confirmationOn.memberInvite")) {
-                                    if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
-                                        CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
-                                        CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
-                                        MessageSender.sendMessage(sender, plInvited.getName() + " has received an invitation he has to accept in order to be recruited in your team");
+                            if (plInvited != null) {
+                                if (!isPlInTeam) {
+                                    if (config.getBoolean("commands.confirmationOn.memberInvite")) {
+                                        if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
+                                            CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
+                                            CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
+                                            MessageSender.sendMessage(plInvited, ChatColor.AQUA + sender.getName() + ChatColor.GREEN + " invited you in " + ChatColor.AQUA + playerTeam + ChatColor.GREEN + ". You have " + ChatColor.AQUA + config.getInt("commands.confirmationDelay") + "s" + ChatColor.GREEN + " to either accept or decline with " + ChatColor.AQUA + "/st invitation accept|decline");
+                                            MessageSender.sendMessage(sender, plInvited.getName() + " has received an invitation he has to accept in order to be recruited in your team");
+                                        } else {
+                                            MessageSender.sendWarningMessage(sender, plInvited.getName() + " already has an invitation pending");
+                                        }
                                     } else {
-                                        MessageSender.sendWarningMessage(sender, plInvited.getName() + " already has an invitation pending");
+                                        TeamHelper.addPlayer(plInvited.getName(), playerTeam);
+                                        MessageSender.sendMessage(sender, "You successfully recruited " + ChatColor.GOLD + plInvited.getName());
                                     }
                                 } else {
-                                    TeamHelper.addPlayer(plInvited.getName(), playerTeam);
-                                    MessageSender.sendMessage(sender, "You successfully recruited " + ChatColor.GOLD + plInvited.getName());
+                                    MessageSender.sendWarningMessage(sender, args[1] + " is already in your team");
                                 }
                             } else {
-                                MessageSender.sendWarningMessage(sender, args[1] + " is already in your team");
+                                MessageSender.sendWarningMessage(sender, "Player not found");
                             }
                         } else if (Objects.equals(args[0], "remove")) {
                             if (sender.getName().equals(args[1])) {
