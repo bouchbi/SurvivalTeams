@@ -101,7 +101,7 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                     commands.addAll(TeamHelper.getAllTeams());
                     StringUtil.copyPartialMatches(args[1], commands, completions);
                     break;
-                case "add":
+                case "invite":
                     Bukkit.getOnlinePlayers().forEach(pl -> commands.add(pl.getName()));
                     commands.remove(sender.getName());
                     StringUtil.copyPartialMatches(args[1], commands, completions);
