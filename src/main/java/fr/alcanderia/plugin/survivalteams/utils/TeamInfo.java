@@ -5,9 +5,10 @@ public enum TeamInfo {
     PLAYERS("players"),
     LEADER("leader"),
     ECONOMY("eco"),
-    WARP("warp");
+    WARP("warp"),
+    COLOR("color");
 
-    public String name;
+    public final String name;
 
     TeamInfo(String name) {
         this.name = name;

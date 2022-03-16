@@ -13,10 +13,10 @@ public class CommandHelp implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            MessageSender.sendMessage(sender, "Here is a list of all the commands :");
+            MessageSender.sendMessage(sender, "Here is a list of all the commands (click one to auto complete) :");
             CommandAll.commands.keySet().forEach(key -> {
                 TextComponent msg = new TextComponent(ChatColor.AQUA + CommandAll.commands.get(key).getKey() + ChatColor.RED + " - " + ChatColor.DARK_GREEN + CommandAll.commands.get(key).getValue());
-                msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/st " + key));
+                msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/st " + key + " "));
                 MessageSender.sendEffectMessageWithoutPrefix(sender, msg);
             });
         } else {

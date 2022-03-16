@@ -24,6 +24,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                 return new CommandList().onCommand(sender, command, label, new String[0]);
             case "top":
                 return new CommandTop().onCommand(sender, command, label, newArgs);
+            case "color":
+                return new CommandColor().onCommand(sender, command, label, newArgs);
             case "info":
                 return new CommandInfo().onCommand(sender, command, label, newArgs);
             case "create":
@@ -64,6 +66,9 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                 case "top":
                     completions.addAll(new CommandTop().onTabComplete(sender, command, alias, newArgs));
                     break;
+                case "color":
+                    completions.addAll(new CommandColor().onTabComplete(sender, command, alias, newArgs));
+                    break;
                 case "info":
                     completions.addAll(new CommandInfo().onTabComplete(sender, command, alias, newArgs));
                     break;
@@ -93,9 +98,12 @@ public class CommandAll implements CommandExecutor, TabCompleter {
 
     public static void regCommands() {
         regCommand("top", "/st top <maxRank>", "Displays a top of the teams, from 1st to the parameter you specify");
+        regCommand("color", "/st color <color>", "Allows you to set the display color for your team");
         regCommand("list", "/st list", "Displays a list of all the teams");
         regCommand("info", "/st info team|player <team>|<player>", "Returns the informations concerning a specific team/player");
         regCommand("create", "/st create <teamName>", "Allows you to create a team");
+        regCommand("quit", "/st quit", "Allows you to quit your team");
+        regCommand("disband", "/st disband", "Allows you to disband your team");
         regCommand("members", "/st members invite|remove|list <player|team>", "Everything that is linked to your player team, inviting a new one, removing one or displays a list of all of them");
         regCommand("warp", "/st warp set|remove", "Allows you to set your team's warp to your current location, or to remove it");
         regCommand("rank", "/st rank <team>", "Returns the rank of the specified team");

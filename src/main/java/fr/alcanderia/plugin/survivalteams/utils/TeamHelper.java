@@ -60,6 +60,10 @@ public class TeamHelper {
         return MySQLConnector.getInfo(teamName, TeamInfo.LEADER);
     }
 
+    public static String getTeamColor(String teamName) {
+        return MySQLConnector.getInfo(teamName, TeamInfo.COLOR);
+    }
+
     public static void setleader(String teamName, String newLeaderName) {
         MySQLConnector.updateInfo(teamName, TeamInfo.LEADER, newLeaderName);
     }
