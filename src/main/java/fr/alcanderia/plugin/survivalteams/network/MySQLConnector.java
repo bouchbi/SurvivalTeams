@@ -295,6 +295,8 @@ public class MySQLConnector {
     }
 
     public static void createTable(String tabName) {
+        reopenIfClosed();
+
         if (tabName != null) {
             try {
                 Statement stmt = con.createStatement();
@@ -328,13 +330,11 @@ public class MySQLConnector {
 
     public static void reopenIfClosed() {
         try {
-            if (con.isClosed()) {
-                logger.info("connexion closed, trying to reopen to execute task");
-                openConnexion();
-            }
+            con.getNetworkTimeout();
         } catch (SQLException e) {
-            logger.warning("cannot check connexion status");
-            e.printStackTrace();
+            logger.warning("Connexion timed out, plugin will attempt to close and reopen it");
+            closeConnexion();
+            openConnexion();
         }
     }
 
