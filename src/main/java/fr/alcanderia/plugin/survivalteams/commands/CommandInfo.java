@@ -20,22 +20,25 @@ public class CommandInfo implements CommandExecutor, TabCompleter {
         if (args.length == 2) {
 
             if (Objects.equals(args[0], "team")) {
-                if (TeamHelper.checkTeamExistence(args[1])) {
-                    MessageSender.sendMessage(sender, ChatColor.GOLD + args[1] + ChatColor.GREEN +
+                String team = args[1];
+
+                if (TeamHelper.checkTeamExistence(team)) {
+                    String teamColor = TeamHelper.getTeamColor(team);
+                    MessageSender.sendMessage(sender, teamColor + team + ChatColor.GREEN +
                             " is composed of "
-                            + ChatColor.GOLD + TeamHelper.getTeamPlayers(args[1]) + ChatColor.GREEN +
+                            + teamColor + TeamHelper.getTeamPlayers(team) + ChatColor.GREEN +
                             " its leader is "
-                            + ChatColor.GOLD + TeamHelper.getTeamLeader(args[1]) + ChatColor.GREEN +
+                            + teamColor + TeamHelper.getTeamLeader(team) + ChatColor.GREEN +
                             ", has a money amount of "
-                            + ChatColor.GOLD + TeamHelper.getTeamEconomy(args[1]) + ChatColor.GREEN +
+                            + teamColor + TeamHelper.getTeamEconomy(team) + ChatColor.GREEN +
                             " and is located at "
-                            + ChatColor.GOLD + Arrays.toString(TeamHelper.getTeamWarpLocation(args[1])));
+                            + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
                 } else {
-                    MessageSender.sendWarningMessage(sender, args[1] + " does not exist");
+                    MessageSender.sendWarningMessage(sender, team + " does not exist");
                 }
             } else if (Objects.equals(args[0], "player")) {
                 if (MySQLConnector.getPlayerTeam(args[1]) != null)
-                    MessageSender.sendMessage(sender, args[1] + " is in " + MySQLConnector.getPlayerTeam(args[1]));
+                    MessageSender.sendMessage(sender, args[1] + " is in " + TeamHelper.getTeamColor(args[1]) + MySQLConnector.getPlayerTeam(args[1]));
                 else
                     MessageSender.sendMessage(sender, args[1] + " does not have a team, poor boy :,(");
             }

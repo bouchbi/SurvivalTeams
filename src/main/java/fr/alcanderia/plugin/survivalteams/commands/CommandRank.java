@@ -2,6 +2,7 @@ package fr.alcanderia.plugin.survivalteams.commands;
 
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,7 +25,7 @@ public class CommandRank implements CommandExecutor, TabCompleter {
                 if (top != null && !top.isEmpty()) {
                     top.forEach(t -> {
                         if (t.equals(teamName))
-                            MessageSender.sendMessage(sender, teamName + " is ranked " + (top.indexOf(t) + 1) + " with an economy of " + TeamHelper.getTeamEconomy(t));
+                            MessageSender.sendMessage(sender,  TeamHelper.getTeamColor(teamName) + teamName + ChatColor.GREEN + " is ranked " + (top.indexOf(t) + 1) + " with an economy of " + TeamHelper.getTeamEconomy(t));
                     });
                 }
             } else {

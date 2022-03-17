@@ -27,7 +27,7 @@ public class CommandTop implements CommandExecutor, TabCompleter {
                     if ((i + 1) > maxRank)
                         break;
                     else
-                        MessageSender.sendWithoutPrefix(sender, (i + 1) + " - " + top.get(i) + " (eco: " + TeamHelper.getTeamEconomy(top.get(i)) + ")");
+                        MessageSender.sendWithoutPrefix(sender, (i + 1) + " - " + TeamHelper.getTeamColor(top.get(i)) + top.get(i) + ChatColor.GREEN + " (eco: " + TeamHelper.getTeamEconomy(top.get(i)) + ")");
                 }
             } else {
                 MessageSender.sendWarningMessage(sender, "Please choose a number between" + ChatColor.GOLD + "1" + ChatColor.GREEN + " and " + ChatColor.GOLD + Survivalteams.getConfiguration().getInt("commands.topMaxRank"));
