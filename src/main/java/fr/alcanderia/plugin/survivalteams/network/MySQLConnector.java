@@ -236,7 +236,7 @@ public class MySQLConnector {
         reopenIfClosed();
 
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO " + teamsTabName + "(" + TeamInfo.NAME.name + "," + TeamInfo.PLAYERS.name + "," + TeamInfo.LEADER.name + "," + TeamInfo.ECONOMY.name + "," + TeamInfo.WARP.name + "," + TeamInfo.COLOR.name + ")VALUES(?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO " + teamsTabName + "(" + TeamInfo.NAME.name + "," + TeamInfo.PLAYERS.name + "," + TeamInfo.LEADER.name + "," + TeamInfo.ECONOMY.name + "," + TeamInfo.WARP.name + "," + TeamInfo.COLOR.name + "," + TeamInfo.WARP_VISIBILITY.name + ")VALUES(?, ?, ?, ?, ?, ?, ?)");
 
             try {
                 ps.setString(1, teamName);
@@ -245,6 +245,7 @@ public class MySQLConnector {
                 ps.setInt(4, 0);
                 ps.setString(5, null);
                 ps.setString(6, ChatColor.GRAY.toString());
+                ps.setString(7, "0");
                 ps.executeUpdate();
             } catch (SQLException e) {
                 logger.warning("cannot execute update");
@@ -304,7 +305,7 @@ public class MySQLConnector {
                 Statement stmt = con.createStatement();
 
                 try {
-                    String sql = "CREATE TABLE " + tabName + "(" + TeamInfo.NAME.name + " VARCHAR(24) not NULL, " + TeamInfo.PLAYERS.name + " VARCHAR(1000) DEFAULT NULL, " + TeamInfo.LEADER.name + " VARCHAR(24) DEFAULT NULL, " + TeamInfo.ECONOMY.name + " INTEGER DEFAULT NULL, " + TeamInfo.WARP.name + " VARCHAR(1000) DEFAULT NULL, " + TeamInfo.COLOR.name + " VARCHAR(4) DEFAULT NULL" + ")";
+                    String sql = "CREATE TABLE " + tabName + "(" + TeamInfo.NAME.name + " VARCHAR(24) not NULL, " + TeamInfo.PLAYERS.name + " VARCHAR(1000) DEFAULT NULL, " + TeamInfo.LEADER.name + " VARCHAR(24) DEFAULT NULL, " + TeamInfo.ECONOMY.name + " INTEGER DEFAULT NULL, " + TeamInfo.WARP.name + " VARCHAR(1000) DEFAULT NULL, " + TeamInfo.COLOR.name + " VARCHAR(4) DEFAULT NULL, " + TeamInfo.WARP_VISIBILITY.name + " BOOLEAN NOT NULL DEFAULT FALSE" + ")";
                     stmt.executeUpdate(sql);
                     logger.info("Successfully created " + tabName + " table in given database");
                 } catch (SQLException e) {

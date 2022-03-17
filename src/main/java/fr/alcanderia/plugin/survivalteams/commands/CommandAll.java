@@ -105,7 +105,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
         regCommand("quit", "/st quit", "Allows you to quit your team");
         regCommand("disband", "/st disband", "Allows you to disband your team");
         regCommand("members", "/st members invite|remove|list <player|team>", "Everything that is linked to your player team, inviting a new one, removing one or displays a list of all of them");
-        regCommand("warp", "/st warp set|remove", "Allows you to set your team's warp to your current location, or to remove it");
+        regCommand("warp", "/st warp set|remove|setVisible", "Allows you to set your team's warp to your current location, to remove it or to set its visibility for others");
         regCommand("rank", "/st rank <team>", "Returns the rank of the specified team");
         regCommand("nameLeader", "/st nameLeader <teamPlayer>", "Allows you to name the leader of your team");
         regCommand("admin", "(/st admin help) to see the list of all commands", "Commands for administration");

@@ -5,8 +5,6 @@ import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -45,7 +43,7 @@ public class CommandNameLeader implements CommandExecutor, TabCompleter {
                                         MessageSender.sendWarningMessage(sender, "Cannot send confirmation, you already have one pending");
                                     }
                                 } else {
-                                    TeamHelper.setleader(plTeam, args[0]);
+                                    TeamHelper.setLeader(plTeam, args[0]);
                                     MessageSender.sendMessage(sender, args[0] + " is the new leader of your team your team");
                                 }
                             } else {

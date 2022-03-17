@@ -37,7 +37,7 @@ public class CommandConfirmation implements CommandExecutor, TabCompleter {
                                         MessageSender.sendMessage(pl, "You successfully disbanded your team");
                                         break;
                                     case NAME_LEADER:
-                                        TeamHelper.setleader(plTeam, lastCommands.get(pl).getValue().getValue());
+                                        TeamHelper.setLeader(plTeam, lastCommands.get(pl).getValue().getValue());
                                         MessageSender.sendMessage(pl, lastCommands.get(pl).getValue().getValue() + " is the new leader of your team your team");
                                         break;
                                     case QUIT:

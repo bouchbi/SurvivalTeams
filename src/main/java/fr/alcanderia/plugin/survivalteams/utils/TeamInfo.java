@@ -6,6 +6,7 @@ public enum TeamInfo {
     LEADER("leader"),
     ECONOMY("eco"),
     WARP("warp"),
+    WARP_VISIBILITY("warpVisibility"),
     COLOR("color");
 
     public final String name;

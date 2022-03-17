@@ -45,8 +45,30 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
             } else {
                 MessageSender.sendWarningMessage(sender, "You are not in a team");
             }
+        } else if (args.length == 2 && args[0].equals("setVisible") && sender instanceof Player) {
+            String team = TeamHelper.getPlayerTeam((Player) sender);
+
+            if (team == null) {
+                MessageSender.sendWarningMessage(sender, "You are not in a team");
+                return true;
+            }
+
+            if (TeamHelper.getTeamLeader(team).equals(sender.getName())) {
+                if (args[1].equals("visible")) {
+                    TeamHelper.changeWarpVisibility(team, true);
+                    MessageSender.sendMessage(sender, "You updated your team warp's visibility");
+                } else if (args[1].equals("hidden")) {
+                    TeamHelper.changeWarpVisibility(team, false);
+                    MessageSender.sendMessage(sender, "You updated your team warp's visibility");
+                } else {
+                    MessageSender.sendUsage(sender, "/st warp setVisible shown|hidden");
+                }
+            } else {
+                MessageSender.sendWarningMessage(sender, "You don't have the permission to do that, ask to your team leader");
+            }
+
         } else {
-            MessageSender.sendUsage(sender, "/st warp set|remove");
+            MessageSender.sendUsage(sender, "/st warp set|remove|setVisible");
         }
 
         return true;
@@ -60,6 +82,10 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
             commands.add("set");
             commands.add("remove");
             StringUtil.copyPartialMatches(args[0], commands, completions);
+        } else if (args.length == 2 && args[0].equals("setVisible")) {
+            commands.add("shown");
+            commands.add("hidden");
+            StringUtil.copyPartialMatches(args[1], commands, completions);
         }
         Collections.sort(completions);
         return completions;

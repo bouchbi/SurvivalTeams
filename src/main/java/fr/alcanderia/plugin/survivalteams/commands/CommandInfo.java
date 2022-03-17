@@ -3,6 +3,7 @@ package fr.alcanderia.plugin.survivalteams.commands;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,15 +25,13 @@ public class CommandInfo implements CommandExecutor, TabCompleter {
 
                 if (TeamHelper.checkTeamExistence(team)) {
                     String teamColor = TeamHelper.getTeamColor(team);
-                    MessageSender.sendMessage(sender, teamColor + team + ChatColor.GREEN +
-                            " is composed of "
-                            + teamColor + TeamHelper.getTeamPlayers(team) + ChatColor.GREEN +
-                            " its leader is "
-                            + teamColor + TeamHelper.getTeamLeader(team) + ChatColor.GREEN +
-                            ", has a money amount of "
-                            + teamColor + TeamHelper.getTeamEconomy(team) + ChatColor.GREEN +
-                            " and is located at "
-                            + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
+                    TextComponent msg = new TextComponent(teamColor + team);
+                    msg.addExtra(ChatColor.GREEN + " is composed of " + teamColor + TeamHelper.getTeamPlayers(team));
+                    msg.addExtra(ChatColor.GREEN + " its leader is " + teamColor + TeamHelper.getTeamLeader(team));
+                    msg.addExtra(ChatColor.GREEN + ", has a money amount of " + teamColor + TeamHelper.getTeamEconomy(team));
+                    if (TeamHelper.isTeamWarpVisible(team))
+                        msg.addExtra(ChatColor.GREEN + " and is located at " + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
+                    MessageSender.sendEffectMessageWithPrefix(sender, msg);
                 } else {
                     MessageSender.sendWarningMessage(sender, team + " does not exist");
                 }

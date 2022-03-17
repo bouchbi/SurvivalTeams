@@ -27,7 +27,7 @@ public class CommandSetLeaderA implements CommandExecutor, TabCompleter {
 
                 if (players != null) {
                     if (players.contains(pl)) {
-                        TeamHelper.setleader(team, pl);
+                        TeamHelper.setLeader(team, pl);
                     }
                 } else {
                     MessageSender.sendWarningMessage(sender, "Team has no players");

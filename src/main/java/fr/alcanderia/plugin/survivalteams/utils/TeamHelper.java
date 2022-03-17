@@ -64,7 +64,7 @@ public class TeamHelper {
         return MySQLConnector.getInfo(teamName, TeamInfo.COLOR);
     }
 
-    public static void setleader(String teamName, String newLeaderName) {
+    public static void setLeader(String teamName, String newLeaderName) {
         MySQLConnector.updateInfo(teamName, TeamInfo.LEADER, newLeaderName);
     }
 
@@ -77,6 +77,19 @@ public class TeamHelper {
             return new int[]{Integer.parseInt(locs[0]), Integer.parseInt(locs[1]), Integer.parseInt(locs[2])};
         } else
             return null;
+    }
+
+    public static void changeWarpVisibility(String teamName, boolean visible) {
+        MySQLConnector.updateInfo(teamName, TeamInfo.WARP_VISIBILITY, visible ? "1" : "0");
+    }
+
+    public static boolean isTeamWarpVisible(String teamName) {
+        String res = MySQLConnector.getInfo(teamName, TeamInfo.WARP_VISIBILITY);
+
+        if (res == null)
+            return false;
+
+        return res.equals("1");
     }
 
     public static void setTeamWarpLocation(String teamName, List<String> coords) {
