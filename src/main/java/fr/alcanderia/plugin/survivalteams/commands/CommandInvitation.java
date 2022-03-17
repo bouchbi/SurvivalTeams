@@ -1,6 +1,6 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
-import fr.alcanderia.plugin.survivalteams.ConfigHandler;
+import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;

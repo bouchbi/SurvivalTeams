@@ -2,6 +2,8 @@ package fr.alcanderia.plugin.survivalteams;
 
 import fr.alcanderia.plugin.survivalteams.commands.CommandAll;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
+import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -10,6 +12,7 @@ public final class Survivalteams extends JavaPlugin {
 
 	private static Survivalteams INSTANCE;
 	private static ConfigHandler config;
+	private static LangHandler langFile;
 
 	public void onLoad() {
 		this.saveDefaultConfig();
@@ -19,6 +22,7 @@ public final class Survivalteams extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		config = new ConfigHandler(this);
+		langFile = new LangHandler(this);
 		registerCommands();
 		this.reloadConfig();
 		INSTANCE = this;
@@ -45,6 +49,10 @@ public final class Survivalteams extends JavaPlugin {
 
 	public static ConfigHandler getConfiguration() {
 		return config;
+	}
+
+	public static LangHandler getLanguageFile() {
+		return langFile;
 	}
 
 	public void registerCommands() {

@@ -54,7 +54,7 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
             }
 
             if (TeamHelper.getTeamLeader(team).equals(sender.getName())) {
-                if (args[1].equals("visible")) {
+                if (args[1].equals("shown")) {
                     TeamHelper.changeWarpVisibility(team, true);
                     MessageSender.sendMessage(sender, "You updated your team warp's visibility");
                 } else if (args[1].equals("hidden")) {
@@ -81,6 +81,7 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
         if (args.length == 1) {
             commands.add("set");
             commands.add("remove");
+            commands.add("setVisible");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2 && args[0].equals("setVisible")) {
             commands.add("shown");

@@ -1,5 +1,8 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
+import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,6 +14,7 @@ import java.util.*;
 public class CommandAll implements CommandExecutor, TabCompleter {
 
     public static HashMap<String, AbstractMap.SimpleEntry<String, String>> commands = new HashMap<>();
+    private static LangHandler lang = Survivalteams.getLanguageFile();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -47,6 +51,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
             case "help":
                 return new CommandHelp().onCommand(sender, command, label, new String[0]);
             default:
+                MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand"));
                 return true;
         }
     }

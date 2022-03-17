@@ -23,6 +23,9 @@ sqlCredentials:
   # Prefix of the tables created by SurvivalTeams
   dbTablesPrefix: 'Teams'
 
+# Language to use (from files)
+lang: 'fr-FR'
+
 # Commands parameters
 commands:
   # Whether to ask for confirmation on performing these commands

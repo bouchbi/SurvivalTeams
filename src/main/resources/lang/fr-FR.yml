@@ -1,0 +1,9 @@
+# Fichier de langue en français
+# Ici il y a les traductions des messages utilisés par le plugin
+# Sentez-vous libre de les changer à votre goût ^^
+# Les placeholders qui sont utilisés seront marqués avec le message
+
+unknownCommand: "Commande inconnue. Executez /help pour voir la liste de celles disponibles"
+
+commandsDesc:
+  top: ""

@@ -1,5 +1,6 @@
-package fr.alcanderia.plugin.survivalteams;
+package fr.alcanderia.plugin.survivalteams.utils;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import org.bukkit.configuration.Configuration;
 
 import java.io.File;
