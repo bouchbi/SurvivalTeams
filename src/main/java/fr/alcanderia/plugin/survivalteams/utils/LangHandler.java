@@ -42,7 +42,7 @@ public class LangHandler {
             if (langConfig == null) {
                 langConfig = YamlConfiguration.loadConfiguration(langFile);
 
-                final InputStream defConfigStream = plugin.getResource(language + ".yml");
+                final InputStream defConfigStream = plugin.getResource("lang" + System.getProperty("file.separator") + language + ".yml");
                 if (defConfigStream == null) {
                     return;
                 }
