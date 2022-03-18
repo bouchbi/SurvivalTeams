@@ -18,8 +18,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
         if (args.length > 0) {
+            String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
             switch (args[0]) {
                 case "confirmation":
                     return new CommandConfirmation().onCommand(sender, command, label, newArgs);
