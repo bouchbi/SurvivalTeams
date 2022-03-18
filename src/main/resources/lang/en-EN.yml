@@ -126,7 +126,7 @@ commandInfo:
 
   noTeam: "does not have a team, poor boy :,("
 
-unknownCommand: "Unknown command. Type /help to see a list of them"
+unknownCommand: "Unknown command. Type /st help to see a list of them"
 notLeader: "Sorry but you don't have the permission to do that, please ask to your team leader"
 notInTeam: "You can't perform that commands because you are not in a team"
 teamAlreadyExists: "That team already exists"
