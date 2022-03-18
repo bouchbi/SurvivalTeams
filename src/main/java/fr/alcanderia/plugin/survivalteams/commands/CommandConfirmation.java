@@ -1,24 +1,26 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
-import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.util.StringUtil;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class CommandConfirmation implements CommandExecutor, TabCompleter {
+public class CommandConfirmation implements CommandExecutor {
 
     public static ConfigHandler config = Survivalteams.getConfiguration();
     public static HashMap<Player, Map.Entry<Long, Map.Entry<ConfirmationType, String>>> lastCommands = new HashMap<>();
+
+    private static LangHandler lang = Survivalteams.getLanguageFile();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -34,53 +36,36 @@ public class CommandConfirmation implements CommandExecutor, TabCompleter {
                                 switch (lastCommands.get(pl).getValue().getKey()) {
                                     case DISBAND:
                                         MySQLConnector.removeTeam(lastCommands.get(pl).getValue().getValue());
-                                        MessageSender.sendMessage(pl, "You successfully disbanded your team");
+                                        MessageSender.sendMessage(pl, lang.getString("commandsSuccess.disband"));
                                         break;
                                     case NAME_LEADER:
                                         TeamHelper.setLeader(plTeam, lastCommands.get(pl).getValue().getValue());
-                                        MessageSender.sendMessage(pl, lastCommands.get(pl).getValue().getValue() + " is the new leader of your team your team");
+                                        MessageSender.sendMessage(pl, lastCommands.get(pl).getValue().getValue() + " " + lang.getString("commandsSuccess.nameLeader"));
                                         break;
                                     case QUIT:
                                         TeamHelper.removePlayer(plTeam, pl.getName());
-                                        MessageSender.sendMessage(pl, "You have successfully leaved your team, I hope they won't regret");
+                                        MessageSender.sendMessage(pl, lang.getString("commandsSuccess.quit"));
                                         break;
                                     default:
                                         break;
                                 }
                             } else {
-                                MessageSender.sendMessage(pl, "Canceled request");
+                                MessageSender.sendMessage(pl, lang.getString("confirmation.cancel"));
                             }
                             lastCommands.remove(pl);
                         } else {
                             lastCommands.remove(pl);
-                            MessageSender.sendMessage(pl, "You have been too long to confirm");
+                            MessageSender.sendMessage(pl, lang.getString("confirmation.timeOut"));
                         }
                     } else {
-                        MessageSender.sendMessage(pl, "You have no awaiting confirmation");
+                        MessageSender.sendMessage(pl, lang.getString("confirmation.noAwaiting"));
                     }
                 } else {
-                    MessageSender.sendWarningMessage(pl, "You are not in a team");
+                    MessageSender.sendWarningMessage(pl, lang.getString("notInTeam"));
                 }
-            } else {
-                MessageSender.sendUsage(sender, "/st confirmation confirm|cancel");
             }
-        } else {
-            MessageSender.sendUsage(sender, "/st confirmation confirm|cancel");
         }
 
         return true;
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        final List<String> commands = new ArrayList<>();
-        final List<String> completions = new ArrayList<>();
-        if (args.length == 1) {
-            completions.add("confirm");
-            completions.add("cancel");
-            StringUtil.copyPartialMatches(args[0], commands, completions);
-        }
-        Collections.sort(completions);
-        return completions;
     }
 }

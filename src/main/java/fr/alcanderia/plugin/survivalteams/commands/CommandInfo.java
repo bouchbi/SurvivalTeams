@@ -1,7 +1,9 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -16,6 +18,8 @@ import java.util.*;
 
 public class CommandInfo implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 2) {
@@ -26,24 +30,24 @@ public class CommandInfo implements CommandExecutor, TabCompleter {
                 if (TeamHelper.checkTeamExistence(team)) {
                     String teamColor = TeamHelper.getTeamColor(team);
                     TextComponent msg = new TextComponent(teamColor + team);
-                    msg.addExtra(ChatColor.GREEN + " is composed of " + teamColor + TeamHelper.getTeamPlayers(team));
-                    msg.addExtra(ChatColor.GREEN + " its leader is " + teamColor + TeamHelper.getTeamLeader(team));
-                    msg.addExtra(ChatColor.GREEN + ", has a money amount of " + teamColor + TeamHelper.getTeamEconomy(team));
+                    msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.composition") + " " + teamColor + TeamHelper.getTeamPlayers(team));
+                    msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.leader") + " " + teamColor + TeamHelper.getTeamLeader(team));
+                    msg.addExtra(ChatColor.GREEN + ", " + lang.getString("commandInfo.money") + " " + teamColor + TeamHelper.getTeamEconomy(team));
                     if (TeamHelper.isTeamWarpVisible(team))
-                        msg.addExtra(ChatColor.GREEN + " and is located at " + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
+                        msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.location") + " " + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
                     MessageSender.sendEffectMessageWithPrefix(sender, msg);
                 } else {
-                    MessageSender.sendWarningMessage(sender, team + " does not exist");
+                    MessageSender.sendWarningMessage(sender, team + " " + lang.getString("commandInfo.noExist"));
                 }
             } else if (Objects.equals(args[0], "player")) {
                 if (MySQLConnector.getPlayerTeam(args[1]) != null)
-                    MessageSender.sendMessage(sender, args[1] + " is in " + TeamHelper.getTeamColor(args[1]) + MySQLConnector.getPlayerTeam(args[1]));
+                    MessageSender.sendMessage(sender, args[1] + " " + lang.getString("commandInfo.isIn") + " " + TeamHelper.getTeamColor(args[1]) + MySQLConnector.getPlayerTeam(args[1]));
                 else
-                    MessageSender.sendMessage(sender, args[1] + " does not have a team, poor boy :,(");
+                    MessageSender.sendMessage(sender, args[1] + " " + lang.getString("commandInfo.noTeam"));
             }
 
         } else {
-            MessageSender.sendUsage(sender, "/st info team|player <team>|<player>");
+            MessageSender.sendUsage(sender, CommandAll.commands.get("info").getKey());
         }
         return true;
     }

@@ -1,6 +1,8 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,6 +17,8 @@ import java.util.List;
 
 public class CommandRank implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
@@ -25,14 +29,14 @@ public class CommandRank implements CommandExecutor, TabCompleter {
                 if (top != null && !top.isEmpty()) {
                     top.forEach(t -> {
                         if (t.equals(teamName))
-                            MessageSender.sendMessage(sender,  TeamHelper.getTeamColor(teamName) + teamName + ChatColor.GREEN + " is ranked " + (top.indexOf(t) + 1) + " with an economy of " + TeamHelper.getTeamEconomy(t));
+                            MessageSender.sendMessage(sender,  TeamHelper.getTeamColor(teamName) + teamName + ChatColor.GREEN + " " + lang.getString("commandsSuccess.ranked") + " " + (top.indexOf(t) + 1) + " " + lang.getString("commandsSuccess.ecoOf" + " " + TeamHelper.getTeamEconomy(t)));
                     });
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, teamName + " does not exist");
+                MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
             }
         } else {
-            MessageSender.sendUsage(sender, "/st rank <team>");
+            MessageSender.sendUsage(sender, CommandAll.commands.get("rank").getKey());
         }
 
         return true;

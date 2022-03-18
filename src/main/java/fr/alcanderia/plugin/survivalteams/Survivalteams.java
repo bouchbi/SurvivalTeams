@@ -21,11 +21,11 @@ public final class Survivalteams extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
+		INSTANCE = this;
 		config = new ConfigHandler(this);
+		this.reloadConfig();
 		langFile = new LangHandler(this);
 		registerCommands();
-		this.reloadConfig();
-		INSTANCE = this;
 		if (Objects.equals(config.getString("dataStorage"), "mysql")) {
 			MySQLConnector.initConnexion();
 		}

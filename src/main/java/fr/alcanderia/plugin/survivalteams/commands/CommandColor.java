@@ -1,7 +1,9 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import fr.alcanderia.plugin.survivalteams.utils.TeamInfo;
 import org.bukkit.ChatColor;
@@ -18,6 +20,8 @@ import java.util.List;
 
 public class CommandColor implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -33,16 +37,16 @@ public class CommandColor implements CommandExecutor, TabCompleter {
                         ChatColor color = ChatColor.valueOf(args[0].toUpperCase());
 
                         MySQLConnector.updateInfo(team, TeamInfo.COLOR, color.toString());
-                        MessageSender.sendMessage(pl, "Successfully updated team color");
+                        MessageSender.sendMessage(pl, lang.getString("commandsSuccess.color"));
 
                     } catch (IllegalArgumentException e) {
-                        MessageSender.sendWarningMessage(pl, "The specified color is not valid, please follow the tab completion");
+                        MessageSender.sendWarningMessage(pl, lang.getString("commandsNotValid.color"));
                     }
                 } else {
-                    MessageSender.sendWarningMessage(pl, "You don't have the permission to do that, please ask to your team leader");
+                    MessageSender.sendWarningMessage(pl, lang.getString("notLeader"));
                 }
             } else {
-                MessageSender.sendWarningMessage(pl, "You are not in a team");
+                MessageSender.sendWarningMessage(pl, lang.getString("notInTeam"));
             }
         } else {
             MessageSender.sendUsage(sender, CommandAll.commands.get("color").getKey());

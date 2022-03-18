@@ -1,7 +1,9 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import fr.alcanderia.plugin.survivalteams.utils.TeamInfo;
 import org.bukkit.command.Command;
@@ -16,6 +18,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class CommandWarp implements CommandExecutor, TabCompleter {
+
+    private static LangHandler lang = Survivalteams.getLanguageFile();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -32,43 +36,43 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                             coords.add(String.valueOf(Math.round((float) player.getLocation().getY())));
                             coords.add(String.valueOf(Math.round((float) player.getLocation().getZ())));
                             TeamHelper.setTeamWarpLocation(plTeam, coords);
-                            MessageSender.sendMessage(sender, "Successfully updated warp location to your current location");
+                            MessageSender.sendMessage(sender, lang.getString("commandsSuccess.warp.update"));
                             break;
                         case "remove":
                             MySQLConnector.updateInfo(plTeam, TeamInfo.WARP, null);
-                            MessageSender.sendMessage(sender, "Successfully removed warp location");
+                            MessageSender.sendMessage(sender, lang.getString("commandsSuccess.warp.remove"));
                             break;
                     }
                 } else {
-                    MessageSender.sendWarningMessage(sender, "You don't have the permission to do that, ask to your team leader");
+                    MessageSender.sendWarningMessage(sender, lang.getString("notLeader"));
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, "You are not in a team");
+                MessageSender.sendWarningMessage(sender, lang.getString("notInTeam"));
             }
         } else if (args.length == 2 && args[0].equals("setVisible") && sender instanceof Player) {
             String team = TeamHelper.getPlayerTeam((Player) sender);
 
             if (team == null) {
-                MessageSender.sendWarningMessage(sender, "You are not in a team");
+                MessageSender.sendWarningMessage(sender, lang.getString("notInTeam"));
                 return true;
             }
 
             if (TeamHelper.getTeamLeader(team).equals(sender.getName())) {
                 if (args[1].equals("shown")) {
                     TeamHelper.changeWarpVisibility(team, true);
-                    MessageSender.sendMessage(sender, "You updated your team warp's visibility");
+                    MessageSender.sendMessage(sender, lang.getString("commandsSuccess.warp.visibility"));
                 } else if (args[1].equals("hidden")) {
                     TeamHelper.changeWarpVisibility(team, false);
-                    MessageSender.sendMessage(sender, "You updated your team warp's visibility");
+                    MessageSender.sendMessage(sender, lang.getString("commandsSuccess.warp.visibility"));
                 } else {
-                    MessageSender.sendUsage(sender, "/st warp setVisible shown|hidden");
+                    MessageSender.sendUsage(sender, CommandAll.commands.get("warp").getKey());
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, "You don't have the permission to do that, ask to your team leader");
+                MessageSender.sendWarningMessage(sender, lang.getString("notLeader"));
             }
 
         } else {
-            MessageSender.sendUsage(sender, "/st warp set|remove|setVisible");
+            MessageSender.sendUsage(sender, CommandAll.commands.get("warp").getKey());
         }
 
         return true;

@@ -19,40 +19,45 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-        switch (args[0]) {
-            case "confirmation":
-                return new CommandConfirmation().onCommand(sender, command, label, newArgs);
-            case "invitation":
-                return new CommandInvitation().onCommand(sender, command, label, newArgs);
-            case "list":
-                return new CommandList().onCommand(sender, command, label, new String[0]);
-            case "top":
-                return new CommandTop().onCommand(sender, command, label, newArgs);
-            case "color":
-                return new CommandColor().onCommand(sender, command, label, newArgs);
-            case "info":
-                return new CommandInfo().onCommand(sender, command, label, newArgs);
-            case "create":
-                return new CommandCreate().onCommand(sender, command, label, newArgs);
-            case "disband":
-                return new CommandDisband().onCommand(sender, command, label, new String[0]);
-            case "members":
-                return new CommandMembers().onCommand(sender, command, label, newArgs);
-            case "warp":
-                return new CommandWarp().onCommand(sender, command, label, newArgs);
-            case "rank":
-                return new CommandRank().onCommand(sender, command, label, newArgs);
-            case "quit":
-                return new CommandQuit().onCommand(sender, command, label, new String[0]);
-            case "nameLeader":
-                return new CommandNameLeader().onCommand(sender, command, label, newArgs);
-            case "admin":
-                return new CommandAdmin().onCommand(sender, command, label, newArgs);
-            case "help":
-                return new CommandHelp().onCommand(sender, command, label, new String[0]);
-            default:
-                MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand"));
-                return true;
+        if (args.length > 0) {
+            switch (args[0]) {
+                case "confirmation":
+                    return new CommandConfirmation().onCommand(sender, command, label, newArgs);
+                case "invitation":
+                    return new CommandInvitation().onCommand(sender, command, label, newArgs);
+                case "list":
+                    return new CommandList().onCommand(sender, command, label, new String[0]);
+                case "top":
+                    return new CommandTop().onCommand(sender, command, label, newArgs);
+                case "color":
+                    return new CommandColor().onCommand(sender, command, label, newArgs);
+                case "info":
+                    return new CommandInfo().onCommand(sender, command, label, newArgs);
+                case "create":
+                    return new CommandCreate().onCommand(sender, command, label, newArgs);
+                case "disband":
+                    return new CommandDisband().onCommand(sender, command, label, new String[0]);
+                case "members":
+                    return new CommandMembers().onCommand(sender, command, label, newArgs);
+                case "warp":
+                    return new CommandWarp().onCommand(sender, command, label, newArgs);
+                case "rank":
+                    return new CommandRank().onCommand(sender, command, label, newArgs);
+                case "quit":
+                    return new CommandQuit().onCommand(sender, command, label, new String[0]);
+                case "nameLeader":
+                    return new CommandNameLeader().onCommand(sender, command, label, newArgs);
+                case "admin":
+                    return new CommandAdmin().onCommand(sender, command, label, newArgs);
+                case "help":
+                    return new CommandHelp().onCommand(sender, command, label, new String[0]);
+                default:
+                    MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand"));
+                    return true;
+            }
+        } else {
+            MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand"));
+            return true;
         }
     }
 
@@ -102,19 +107,19 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     }
 
     public static void regCommands() {
-        regCommand("top", "/st top <maxRank>", "Displays a top of the teams, from 1st to the parameter you specify");
-        regCommand("color", "/st color <color>", "Allows you to set the display color for your team");
-        regCommand("list", "/st list", "Displays a list of all the teams");
-        regCommand("info", "/st info team|player <team>|<player>", "Returns the informations concerning a specific team/player");
-        regCommand("create", "/st create <teamName>", "Allows you to create a team");
-        regCommand("quit", "/st quit", "Allows you to quit your team");
-        regCommand("disband", "/st disband", "Allows you to disband your team");
-        regCommand("members", "/st members invite|remove|list <player|team>", "Everything that is linked to your player team, inviting a new one, removing one or displays a list of all of them");
-        regCommand("warp", "/st warp set|remove|setVisible", "Allows you to set your team's warp to your current location, to remove it or to set its visibility for others");
-        regCommand("rank", "/st rank <team>", "Returns the rank of the specified team");
-        regCommand("nameLeader", "/st nameLeader <teamPlayer>", "Allows you to name the leader of your team");
-        regCommand("admin", "(/st admin help) to see the list of all commands", "Commands for administration");
-        regCommand("help", "/st help", "Displays the list of all the commands");
+        regCommand("top", "/st top <maxRank>", lang.getString("commandsDesc.top"));
+        regCommand("color", "/st color <color>", lang.getString("commandsDesc.color"));
+        regCommand("list", "/st list", lang.getString("commandsDesc.list"));
+        regCommand("info", "/st info team|player <team>|<player>", lang.getString("commandsDesc.info"));
+        regCommand("create", "/st create <teamName>", lang.getString("commandsDesc.create"));
+        regCommand("quit", "/st quit", lang.getString("commandsDesc.quit"));
+        regCommand("disband", "/st disband", lang.getString("commandsDesc.disband"));
+        regCommand("members", "/st members invite|remove|list <player|team>", lang.getString("commandsDesc.members"));
+        regCommand("warp", "/st warp set|remove|setVisible", lang.getString("commandsDesc.warp"));
+        regCommand("rank", "/st rank <team>", lang.getString("commandsDesc.rank"));
+        regCommand("nameLeader", "/st nameLeader <teamPlayer>", lang.getString("commandsDesc.nameLeader"));
+        regCommand("admin", "(/st admin help) to see the list of all commands", lang.getString("commandsDesc.admin"));
+        regCommand("help", "/st help", lang.getString("commandsDesc.help"));
     }
 
     public static void regCommand(String commands, String usage, String desc) {

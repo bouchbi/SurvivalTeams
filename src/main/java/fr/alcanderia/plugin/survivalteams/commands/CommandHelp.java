@@ -1,5 +1,6 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -13,14 +14,14 @@ public class CommandHelp implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            MessageSender.sendMessage(sender, "Here is a list of all the commands (click one to auto complete) :");
+            MessageSender.sendMessage(sender, Survivalteams.getLanguageFile().getString("help"));
             CommandAll.commands.keySet().forEach(key -> {
                 TextComponent msg = new TextComponent(ChatColor.AQUA + CommandAll.commands.get(key).getKey() + ChatColor.RED + " - " + ChatColor.DARK_GREEN + CommandAll.commands.get(key).getValue());
                 msg.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/st " + key + " "));
                 MessageSender.sendEffectMessageWithoutPrefix(sender, msg);
             });
         } else {
-            MessageSender.sendUsage(sender, "/st help");
+            MessageSender.sendUsage(sender, CommandAll.commands.get("help").getKey());
         }
         return true;
     }

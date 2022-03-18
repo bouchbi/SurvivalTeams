@@ -1,5 +1,7 @@
 package fr.alcanderia.plugin.survivalteams.services;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
@@ -9,6 +11,7 @@ import org.bukkit.entity.Player;
 public class MessageSender {
 
     private static final String messagePrefix = ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + "Survival" + ChatColor.GRAY + "Teams" + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
+    private static LangHandler lang = Survivalteams.getLanguageFile();
 
 
     public static void sendMessage(CommandSender receiver, String msg) {
@@ -20,7 +23,7 @@ public class MessageSender {
     }
 
     public static void sendUsage(CommandSender receiver, String usage) {
-        receiver.sendMessage(messagePrefix + ChatColor.RED + "Correct usage for this command is : " + usage);
+        receiver.sendMessage(messagePrefix + ChatColor.RED + lang.getString("usageMessage") + " " + usage);
     }
 
     public static void sendWithoutPrefix(CommandSender receiver, String msg) {
@@ -45,13 +48,13 @@ public class MessageSender {
 
     public static TextComponent invitationMessage(String playerInviter, String teamName) {
         return new TextComponent(messagePrefix + ChatColor.AQUA + playerInviter +
-                ChatColor.GREEN + " invited you in " +
+                ChatColor.GREEN + " " + lang.getString("invitation.notifyReceiver") + " " +
                 ChatColor.AQUA + teamName +
                 ChatColor.GREEN + ". ");
     }
 
     public static void confirmationMessage(Player receiver) {
-        TextComponent finalMsg = new TextComponent(messagePrefix + ChatColor.GOLD + " Are you sure you want to do that ? ");
+        TextComponent finalMsg = new TextComponent(messagePrefix + ChatColor.GOLD + " " + lang.getString("confirmation.message") + " ");
         TextComponent confirm = new TextComponent(ChatColor.DARK_GREEN + "confirm" + ChatColor.RESET);
         TextComponent cancel = new TextComponent(ChatColor.DARK_RED + "cancel" + ChatColor.RESET);
         confirm.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st confirmation confirm"));

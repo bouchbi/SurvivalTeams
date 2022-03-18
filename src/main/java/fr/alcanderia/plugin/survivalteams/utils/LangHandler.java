@@ -1,14 +1,15 @@
 package fr.alcanderia.plugin.survivalteams.utils;
 
 import com.google.common.base.Charsets;
-import com.google.common.io.Files;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
-import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +24,8 @@ public class LangHandler {
     }
 
     public void loadFile() {
-        File folder = new File(this.plugin.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "lang");
+        String langFolderPath = this.plugin.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "lang";
+        File folder = new File(langFolderPath);
         if (!folder.exists()) {
             folder.mkdir();
         }
@@ -31,25 +33,23 @@ public class LangHandler {
         String language = Survivalteams.getInstance().getConfig().getString("lang");
         Logger logger = this.plugin.getLogger();
 
-        File langFile = new File(folder + System.getProperty("file.separator") + language + ".yml");
-        if (!langFile.exists()) {
-            logger.info("Lang file for " + language + " not found, plugin will generate a new one");
-            this.plugin.saveResource(language + ".yml", false);
-        }
+        String langFilePath = langFolderPath + System.getProperty("file.separator") + language + ".yml";
+        String pluginLangPath = "lang" + System.getProperty("file.separator") + language + ".yml";
+        this.plugin.saveResource(pluginLangPath, false);
 
         try {
             logger.info("Loading lang file in directory");
             if (langConfig == null) {
-                langConfig = YamlConfiguration.loadConfiguration(langFile);
+                langConfig = YamlConfiguration.loadConfiguration(new File(langFilePath));
 
-                final InputStream defConfigStream = plugin.getResource("lang" + System.getProperty("file.separator") + language + ".yml");
+                final InputStream defConfigStream = plugin.getResource(pluginLangPath);
                 if (defConfigStream == null) {
                     return;
                 }
 
                 langConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
             }
-            langConfig.load(langFile);
+            langConfig.load(langFilePath);
         } catch (Exception e) {
             logger.warning("Unable to load language file, please try creating one by hand");
             e.printStackTrace();

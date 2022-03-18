@@ -2,6 +2,7 @@ package fr.alcanderia.plugin.survivalteams.commands;
 
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,6 +15,8 @@ import java.util.List;
 
 public class CommandTop implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
@@ -22,7 +25,7 @@ public class CommandTop implements CommandExecutor, TabCompleter {
             if (1 <= maxRank && maxRank <= Survivalteams.getConfiguration().getInt("commands.topMaxRank")) {
                 List<String> top = TeamHelper.getTeamTop();
 
-                MessageSender.sendMessage(sender, "Here is the top " + maxRank + " of teams :");
+                MessageSender.sendMessage(sender, lang.getString("commandsSuccess.top") + " " + maxRank + " " + lang.getString("commandsSuccess.teams"));
                 for (int i = 0; i < top.size(); i++) {
                     if ((i + 1) > maxRank)
                         break;
@@ -30,11 +33,11 @@ public class CommandTop implements CommandExecutor, TabCompleter {
                         MessageSender.sendWithoutPrefix(sender, (i + 1) + " - " + TeamHelper.getTeamColor(top.get(i)) + top.get(i) + ChatColor.GREEN + " (eco: " + TeamHelper.getTeamEconomy(top.get(i)) + ")");
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, "Please choose a number between" + ChatColor.GOLD + "1" + ChatColor.GREEN + " and " + ChatColor.GOLD + Survivalteams.getConfiguration().getInt("commands.topMaxRank"));
+                MessageSender.sendWarningMessage(sender, lang.getString("commandsSuccess.choose") + " " + ChatColor.GOLD + "1" + ChatColor.GREEN + " " + lang.getString("commandsSuccess.and") + ChatColor.GOLD + " " + Survivalteams.getConfiguration().getInt("commands.topMaxRank"));
             }
 
         } else {
-            MessageSender.sendUsage(sender, "/st top <maxRank>");
+            MessageSender.sendUsage(sender, CommandAll.commands.get("top").getKey());
         }
 
         return true;

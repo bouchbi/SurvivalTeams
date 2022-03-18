@@ -24,7 +24,7 @@ sqlCredentials:
   dbTablesPrefix: 'Teams'
 
 # Language to use (from files)
-lang: 'fr-FR'
+lang: 'en-EN'
 
 # Commands parameters
 commands:

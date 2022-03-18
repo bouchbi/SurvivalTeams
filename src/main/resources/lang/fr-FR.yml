@@ -3,7 +3,6 @@
 # Sentez-vous libre de les changer à votre goût ^^
 # Les placeholders qui sont utilisés seront marqués avec le message
 
-unknownCommand: "Commande inconnue. Executez /help pour voir la liste de celles disponibles"
 
-commandsDesc:
-  top: ""
+
+unknownCommand: "Commande inconnue. Executez /help pour voir la liste de celles disponibles"

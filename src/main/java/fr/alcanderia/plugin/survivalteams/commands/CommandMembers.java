@@ -3,6 +3,7 @@ package fr.alcanderia.plugin.survivalteams.commands;
 import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -20,15 +21,16 @@ import java.util.*;
 public class CommandMembers implements CommandExecutor, TabCompleter {
 
     private static ConfigHandler config = Survivalteams.getConfiguration();
+    private static LangHandler lang = Survivalteams.getLanguageFile();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 2) {
             if (Objects.equals(args[0], "list")) {
                 if (TeamHelper.checkTeamExistence(args[1])) {
-                    MessageSender.sendMessage(sender, "This team is made of : " + String.join(", ", Objects.requireNonNull(TeamHelper.getTeamPlayers(args[1]))));
+                    MessageSender.sendMessage(sender, lang.getString("teamCompo") + " " + String.join(", ", Objects.requireNonNull(TeamHelper.getTeamPlayers(args[1]))));
                 } else {
-                    MessageSender.sendWarningMessage(sender, "This team does not exists");
+                    MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
                 }
 
             } else if (Objects.equals(args[0], "invite") || Objects.equals(args[0], "remove")) {
@@ -62,41 +64,41 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                                             MessageSender.sendEffectMessageWithPrefix(plInvited, msgFinal);
 
                                             // Player confirmation
-                                            MessageSender.sendMessage(sender, plInvited.getName() + " has received an invitation he has to accept in order to be recruited in your team");
+                                            MessageSender.sendMessage(sender, plInvited.getName() + " " + lang.getString("invitation.notifySender"));
                                         } else {
-                                            MessageSender.sendWarningMessage(sender, plInvited.getName() + " already has an invitation pending");
+                                            MessageSender.sendWarningMessage(sender, plInvited.getName() + " " + lang.getString("invitation.alreadyPending"));
                                         }
                                     } else {
                                         TeamHelper.addPlayer(plInvited.getName(), playerTeam);
-                                        MessageSender.sendMessage(sender, "You successfully recruited " + ChatColor.GOLD + plInvited.getName());
+                                        MessageSender.sendMessage(sender, lang.getString("commandsSuccess.recruited") + " " + ChatColor.GOLD + plInvited.getName());
                                     }
                                 } else {
-                                    MessageSender.sendWarningMessage(sender, args[1] + " is already in your team");
+                                    MessageSender.sendWarningMessage(sender, args[1] + " " + lang.getString("invitation.alreadyInYour"));
                                 }
                             } else {
-                                MessageSender.sendWarningMessage(sender, "Player not found");
+                                MessageSender.sendWarningMessage(sender, lang.getString("plNotFound"));
                             }
                         } else if (Objects.equals(args[0], "remove")) {
                             if (sender.getName().equals(args[1])) {
-                                MessageSender.sendWarningMessage(sender, "If you want to leave your team, please use /st quit");
+                                MessageSender.sendWarningMessage(sender, lang.getString("preventLeaderQuit") + " " + CommandAll.commands.get("quit").getKey());
                             }
                             if (isPlInTeam) {
                                 TeamHelper.removePlayer(TeamHelper.getPlayerTeam(sender.getName()), args[1]);
-                                MessageSender.sendMessage(sender, args[1] + " successfully struck off your team");
+                                MessageSender.sendMessage(sender, args[1] + " " + lang.getString("members.struckOff"));
                             } else {
-                                MessageSender.sendWarningMessage(sender, args[1] + " is not in your team");
+                                MessageSender.sendWarningMessage(sender, args[1] + " " + lang.getString("members.notInTeam"));
                             }
                         }
 
                     } else {
-                        MessageSender.sendWarningMessage(sender, "You don't have the permission to do that, ask to your team leader");
+                        MessageSender.sendWarningMessage(sender, lang.getString("notLeader"));
                     }
                 } else {
-                    MessageSender.sendWarningMessage(sender, "You are not in a team");
+                    MessageSender.sendWarningMessage(sender, lang.getString("notInTeam"));
                 }
             }
         } else {
-            MessageSender.sendUsage(sender, "/st members invite|remove|list <player|team>");
+            MessageSender.sendUsage(sender, CommandAll.commands.get("members").getKey());
         }
 
         return true;

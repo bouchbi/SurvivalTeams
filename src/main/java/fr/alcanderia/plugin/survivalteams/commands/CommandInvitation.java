@@ -1,8 +1,9 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
-import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -17,6 +18,7 @@ import java.util.*;
 public class CommandInvitation implements CommandExecutor, TabCompleter {
 
     private static ConfigHandler config = Survivalteams.getConfiguration();
+    private static LangHandler lang = Survivalteams.getLanguageFile();
     public static HashMap<Player, Long> delay = new HashMap<>();
     public static HashMap<Player, Map.Entry<Player, String>> invites = new HashMap<>();
 
@@ -32,27 +34,23 @@ public class CommandInvitation implements CommandExecutor, TabCompleter {
                         if (args[0].equals("accept")) {
                             String teamName = invites.get(pl).getValue();
                             TeamHelper.addPlayer(teamName, pl.getName());
-                            MessageSender.sendMessage(pl, "You successfully joined " + ChatColor.GOLD + teamName);
-                            MessageSender.sendMessage(inviter, "You successfully recruited " + ChatColor.GOLD + pl.getName());
+                            MessageSender.sendMessage(pl, lang.getString("commandsSuccess.join") + " " + ChatColor.GOLD + teamName);
+                            MessageSender.sendMessage(inviter, lang.getString("commandsSuccess.recruited") + " " + ChatColor.GOLD + pl.getName());
                         } else {
-                            MessageSender.sendMessage(inviter, ChatColor.GOLD + "" + pl + ChatColor.RED + " declined" + ChatColor.RESET + " your invitation");
-                            MessageSender.sendMessage(pl, "Declined request");
+                            MessageSender.sendMessage(inviter, ChatColor.GOLD + "" + pl + ChatColor.RED + " " + lang.getString("commandsSuccess.declined") + ChatColor.RESET + " " + lang.getString("commandsSuccess.invitation"));
+                            MessageSender.sendMessage(pl, lang.getString("invitation.decline"));
                         }
                         delay.remove(pl);
                         invites.remove(pl);
                     } else {
                         delay.remove(pl);
                         invites.remove(pl);
-                        MessageSender.sendMessage(pl, "You have been too long to confirm");
+                        MessageSender.sendMessage(pl, lang.getString("confirmation.timeOut"));
                     }
                 } else {
-                    MessageSender.sendMessage(pl, "You have no awaiting confirmation");
+                    MessageSender.sendMessage(pl, lang.getString("confirmation.noAwaiting"));
                 }
-            } else {
-                MessageSender.sendUsage(sender, "/st invitation accept|decline");
             }
-        } else {
-            MessageSender.sendUsage(sender, "/st invitation accept|decline");
         }
 
         return true;

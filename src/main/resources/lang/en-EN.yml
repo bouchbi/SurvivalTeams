@@ -1,0 +1,154 @@
+# Language file in English
+# Here are the translations of the messages used by the plugin
+# Feel free to spice it up as you wish ^^
+# Used placeholders will be annotated with chevrons along with the translation parameters annotated with quotation marks
+
+commandsDesc:
+  top: "Displays a top of the teams, from 1st to the parameter you specify"
+  color: "Allows you to set the display color for your team"
+  list: "Displays a list of all the teams"
+  info: "Returns the informations concerning a specific team/player"
+  create: "Create your own team"
+  quit: "Allows you to quit your team"
+  disband: "Allows you to disband your team"
+  members: "Everything that is linked to your player team, inviting a new one, removing one or displays a list of all of them"
+  warp: "Allows you to set your team's warp to your current location, to remove it or to set its visibility for others"
+  rank: "Returns the rank of the specified team"
+  nameLeader: "Allows you to name the leader of your team"
+  admin: "Commands for administration"
+  help: "Displays the list of all the commands"
+
+commandsSuccess:
+  color: "Successfully updated team color"
+  disband: "You successfully disbanded your team"
+  warp:
+    update: "Successfully updated warp location to your current location"
+    remove: "Successfully removed warp location"
+    visibility: "You updated your team warp's visibility"
+
+  # Values introduced with the string are annotated before the message
+  # For example, below, <player> is used with "nameLeader" parameter and its usage is shown
+
+  # For the following parameter:
+  # <player> "nameLeader"
+  nameLeader: "is the new leader of your team your team"
+
+  quit: "You have successfully leaved your team, I hope they won't regret"
+  create: "Team successfully created"
+
+  # For the following parameter:
+  # "join" <team>
+  join: "You successfully joined"
+
+  # For the following parameter:
+  # "recruited" <player>
+  recruited: "You successfully recruited"
+
+  # For the following parameter:
+  # <player> "declined" "invitation"
+  declined: "declined"
+  invitation: "your invitation"
+
+  # For the following parameter:
+  # <team> "ranked" "ecoOf"
+  ranked: "is ranked"
+  ecoOf: "with an economy of"
+
+  # For the following parameter:
+  # "top" <maxRank> "teams"
+  top: "Here is the top"
+  teams: "of teams :"
+
+  # For the following parameter:
+  # "choose" <maxRank> "and"
+  choose: "Please choose a number between"
+  and: "and"
+
+commandsNotValid:
+  color: "The specified color is not valid, please follow the tab completion"
+
+confirmation:
+  cancel: "Canceled request"
+  already: "Cannot send confirmation, you already have one pending"
+  timeOut: "You have been too long to confirm"
+  noAwaiting: "You have no awaiting confirmation"
+  message: "Are you sure you want to do that ?"
+
+invitation:
+  decline: "Declined invitation"
+
+  # For the following parameter:
+  # <player> "notifyReceiver" <team>
+  notifyReceiver: "invited you in"
+
+  # For the following parameter:
+  # <player> "notifySender"
+  notifySender: "has received an invitation he has to accept in order to be recruited in your team"
+
+  # For the following parameter:
+  # <player> "alreadyPending"
+  alreadyPending: "already has an invitation pending"
+
+  # For the following parameter:
+  # <player> "alreadyInYour"
+  alreadyInYour: "is already in your team"
+
+  # For the following parameter:
+  # <player> "alreadyInTeam"
+  alreadyInTeam: "is already in a team"
+
+members:
+  # For the following parameter:
+  # <player> "struckOff"
+  struckOff: "successfully struck off your team"
+
+  # For the following parameter:
+  # <player> "notInTeam"
+  notInteam: "is not in your team"
+
+commandInfo:
+  # This message is made as following:
+  # <team> "composition" <teamPLayers> "leader" <leader> "money" <money> "location" <location>
+  # Words in quotation marks are the parameters that you can change
+  composition: "is composed of"
+  leader: "its leader is"
+  money: "has a money amount of"
+  location: "and is located at"
+
+  # Alternative message if team does not exist, made as following:
+  # <team> "noExist"
+  noExist: "does not exists"
+  # End of the team info messages
+
+  # Player info command:
+  # <player> "isIn" <playerTeam>
+  isIn: "is in"
+
+  noTeam: "does not have a team, poor boy :,("
+
+unknownCommand: "Unknown command. Type /help to see a list of them"
+notLeader: "Sorry but you don't have the permission to do that, please ask to your team leader"
+notInTeam: "You can't perform that commands because you are not in a team"
+teamAlreadyExists: "That team already exists"
+alreadyInTeam: "You are already in a team"
+help: "Here is a list of all the commands (click one to auto complete) :"
+list: "Here is a list of all the teams (click one to see teams info) : "
+teamNoExists: "This team does not exists"
+plNotFound: "Player not found"
+teamNoPlayers: "Your team has no players"
+
+# For the following parameter:
+# "usageMessage" <commandUsage>
+usageMessage: "Correct usage for this command is :"
+
+# For the following parameter:
+# "preventLeaderQuit" <commandQuitUsage>
+preventLeaderQuit: "You can't leave your team because you are the leader of it, either name a new leader of disband your team with"
+
+# For the following parameter:
+# "noTeams" <commandCreateUsage>
+noTeams: "There is no existing team for the moment, create one with"
+
+# For the following parameter:
+# "teamCompo" <players>
+teamCompo: "This team is made of :"

@@ -4,6 +4,7 @@ import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +16,7 @@ import java.util.AbstractMap;
 public class CommandQuit implements CommandExecutor {
 
     private static ConfigHandler config = Survivalteams.getConfiguration();
+    private static LangHandler lang = Survivalteams.getLanguageFile();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -30,17 +32,17 @@ public class CommandQuit implements CommandExecutor {
                             // Confirmation query message
                             MessageSender.confirmationMessage((Player) sender);
                         } else {
-                            MessageSender.sendWarningMessage(sender, "Cannot send confirmation, you already have one pending");
+                            MessageSender.sendWarningMessage(sender, lang.getString("confirmation.already"));
                         }
                     } else {
                         TeamHelper.removePlayer(plTeam, sender.getName());
-                        MessageSender.sendMessage(sender, "You have successfully leaved your team, I hope they won't regret");
+                        MessageSender.sendMessage(sender, lang.getString("commandsSuccess.quit"));
                     }
                 } else {
-                    MessageSender.sendMessage(sender, "You are the leader of this team, please name a new leader before leaving with /st nameLeader <playerName> or disband with /st disband");
+                    MessageSender.sendMessage(sender, lang.getString("preventLeaderQuit") + " " + CommandAll.commands.get("disband").getKey());
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, "You are not in a team");
+                MessageSender.sendWarningMessage(sender, lang.getString("notInTeam"));
             }
         }
 

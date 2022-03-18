@@ -4,6 +4,7 @@ import fr.alcanderia.plugin.survivalteams.utils.ConfigHandler;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,6 +21,7 @@ import java.util.List;
 public class CommandNameLeader implements CommandExecutor, TabCompleter {
 
     private static ConfigHandler config = Survivalteams.getConfiguration();
+    private static LangHandler lang = Survivalteams.getLanguageFile();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -40,27 +42,27 @@ public class CommandNameLeader implements CommandExecutor, TabCompleter {
                                         // Confirmation query message
                                         MessageSender.confirmationMessage((Player) sender);
                                     } else {
-                                        MessageSender.sendWarningMessage(sender, "Cannot send confirmation, you already have one pending");
+                                        MessageSender.sendWarningMessage(sender, lang.getString("confirmation.already"));
                                     }
                                 } else {
                                     TeamHelper.setLeader(plTeam, args[0]);
-                                    MessageSender.sendMessage(sender, args[0] + " is the new leader of your team your team");
+                                    MessageSender.sendMessage(sender, args[0] + " " + lang.getString("commandsSuccess.nameLeader"));
                                 }
                             } else {
-                                MessageSender.sendWarningMessage(sender, args[0] + "is not in your team");
+                                MessageSender.sendWarningMessage(sender, args[0] + " " + lang.getString("members.notInTeam"));
                             }
                         } else {
-                            MessageSender.sendWarningMessage(sender, "Your team has no players");
+                            MessageSender.sendWarningMessage(sender, lang.getString("teamNoPlayers"));
                         }
                     }
                 } else {
-                    MessageSender.sendWarningMessage(sender, "You don't have the permission to do that, ask to your team leader");
+                    MessageSender.sendWarningMessage(sender, lang.getString("notLeader"));
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, "You are not in a team");
+                MessageSender.sendWarningMessage(sender, lang.getString("notInTeam"));
             }
         } else {
-            MessageSender.sendUsage(sender, "/st nameLeader <teamPlayer>");
+            MessageSender.sendUsage(sender, CommandAll.commands.get("nameLeader").getKey());
         }
         return true;
     }
