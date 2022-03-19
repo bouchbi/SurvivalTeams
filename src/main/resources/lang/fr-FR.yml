@@ -1,8 +1,158 @@
 # Fichier de langue en français
 # Ici il y a les traductions des messages utilisés par le plugin
 # Sentez-vous libre de les changer à votre goût ^^
-# Les placeholders qui sont utilisés seront marqués avec le message
+# Les placeholders utilisés seront annotés avec des chevrons avec leur paramètre de traduction annoté avec des guillements
 
+commandsDesc:
+  top: "Affiche un classement des teams, de la 1ère jusqu'au paramètre spécifié"
+  color: "Vous permet de choisir la couleur d'affichage de votre team"
+  list: "Affiche une liste de toutes les teams"
+  info: "Donne les informations concernant le joueur/ la team spécifié/e"
+  create: "Créé ta propre team"
+  quit: "Quitte ta team"
+  disband: "Dissoud ta team"
+  members: "Tout ce qui est en lien avec les joueurs de ta team, en inviter un nouveau, en enlever un ou afficher la liste de tous"
+  warp: "Modifie le warp de ta team a ta localisation actuelle, enlèeve-le ou change sa visibilité pour les autres joueurs"
+  rank: "Donne le rang de la team spécifiée"
+  nameLeader: "Nomme un nouveau leader pour ta team"
+  admin: "Commandes pour l'administration"
+  help: "Affiche une liste de toutes les commandes"
 
+commandsSuccess:
+  color: "Couleur de team modifiée avec succès"
+  disband: "Team dissoute avec succès"
+  warp:
+    update: "Warp modifié avec succès à ta localisation actuelle"
+    remove: "Warp enlevé avec succès"
+    visibility: "Visibilité du warp de la team modifié avec succès"
 
-unknownCommand: "Commande inconnue. Executez /help pour voir la liste de celles disponibles"
+  # Les valeurs introduites avec les messages sont spécifiées avec les paramètres
+  # Par exemple, ci-dessous, <player> est utilisé avec le paramètre "nameLeader" et son usage est décrit
+
+  # Pour le paramètre suivant:
+  # <player> "nameLeader"
+  nameLeader: "est le nouveau leader de votre team"
+
+  quit: "Tu as quitté ta team avec succès, j'espère qu'ils ne regretteront pas"
+  create: "Team créée avec succès"
+
+  # Pour le paramètre suivant:
+  # "join" <team>
+  join: "Tu as rejoint"
+
+  # Pour le paramètre suivant:
+  # "recruited" <player>
+  recruited: "Tu as recruté"
+
+  # Pour le paramètre suivant:
+  # <player> "declined" "invitation"
+  declined: "a refusé"
+  invitation: "votre invitation"
+
+  # Pour le paramètre suivant:
+  # <team> "ranked" "ecoOf"
+  ranked: "est classée"
+  ecoOf: "avec un solde de"
+
+  # Pour le paramètre suivant:
+  # "top" <maxRank> "teams"
+  top: "Voici le top"
+  teams: "des teams :"
+
+  # Pour le paramètre suivant:
+  # "choose" <maxRank> "and"
+  choose: "Veuillez choisir un nombre entre"
+  and: "et"
+
+commandsNotValid:
+  color: "La couleur spécifiée n'est pas valide, veuillez suivre les propositions de commandes"
+
+confirmation:
+  cancel: "Requête annulée"
+  already: "Impossible d'nevoyer la confirmation, tu en as déjà une en cours"
+  timeOut: "Tu as été trop long à valider"
+  noAwaiting: "Pas de confirmation en attente"
+  message: "Es-tu sûr de vouloir faire cela ?"
+
+invitation:
+  decline: "Invitation déclinée"
+
+  # Pour le paramètre suivant:
+  # <player> "notifyReceiver" <team>
+  notifyReceiver: "vous a invité à rejoindre"
+
+  # Pour le paramètre suivant:
+  # <player> "notifySender"
+  notifySender: "a reçu une invitation qu'il doit accepter pour rejoindre votre team"
+
+  # Pour le paramètre suivant:
+  # <player> "alreadyPending"
+  alreadyPending: "a déjà une invitation à traiter"
+
+  # Pour le paramètre suivant:
+  # <player> "alreadyInYour"
+  alreadyInYour: "est déjà dans votre team"
+
+  # Pour le paramètre suivant:
+  # <player> "alreadyInTeam"
+  alreadyInTeam: "est déjà dans une team"
+
+members:
+  # Pour le paramètre suivant:
+  # <player> "struckOff"
+  struckOff: "a été exclus de la team"
+
+  # Pour le paramètre suivant:
+  # <player> "notInTeam"
+  notInteam: "n'est pas dans la team"
+
+commandInfo:
+  # Le message est constitué comme il suit:
+  # <team> "composition" <teamPLayers> "leader" <leader> "money" <money> "location" <location>
+  # Les mots entre guillements sont les paramètres que tu peux changer ci-dessous
+  composition: "est composé de"
+  leader: "son leader est"
+  money: "possède un solde de"
+  location: "et est localisé à"
+
+  # Message alternatif si le team n'existe pas, constitué comme il suit:
+  # <team> "noExist"
+  noExist: "n'existe pas"
+
+  # Commande pour les infos de joueur:
+  # <player> "isIn" <playerTeam>
+  isIn: "fait partie de"
+
+  noTeam: "n'a pas de team, pauvre garçon :,("
+
+# Pour le paramètre suivant:
+# <player> "unknownCommand.pre" <helpCommand> "unknownCommand.post"
+unknownCommand:
+  pre: "Commande inconnue. Utilises"
+  post: "pour voir une liste des commandes"
+
+notLeader: "Désolé mais tu n'as pas la permission d'utiliser cette commande, demande au leader de ta team"
+notInTeam: "Impossible d'utiliser cette commande car tu n'es pas dans une team"
+teamAlreadyExists: "Cette team existe déjà"
+alreadyInTeam: "Tu es déjà dans une team"
+help: "Voici une liste de toutes les commandes (cliques sur une pour la compléter automatiquement) :"
+list: "Voici une liste de toutes les teams (cliques sur une pour afficher ses infos) : "
+teamNoExists: "Cette team n'existe pas"
+plNotFound: "Joueur introuvable"
+teamNoPlayers: "Ta team ne possède pas de joueurs"
+
+# Pour le paramètre suivant:
+# "usageMessage" <commandUsage>
+usageMessage: "L'usage correct de cette commande est :"
+
+# Pour le paramètre suivant:
+# "preventLeaderQuit" <commandQuitUsage>
+preventLeaderQuit: "Impossible de quitter la team car tu en es le leader, tu peux nommer un nouveau leader ou dissoudre ta team avec"
+
+# Pour le paramètre suivant:
+# "noTeams" <commandCreateUsage>
+noTeams: "IL n'y a aucune team existante pour le moment, tu peux en créer une avec"
+
+# Pour le paramètre suivant:
+# "teamCompo" <players>
+teamCompo: "Cette team est consituée de :"

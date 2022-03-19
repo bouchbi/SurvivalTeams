@@ -52,11 +52,11 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                 case "help":
                     return new CommandHelp().onCommand(sender, command, label, new String[0]);
                 default:
-                    MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand"));
+                    MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand.pre") + " " + commands.get("help").getKey() + " " + lang.getString("unknownCommand.post"));
                     return true;
             }
         } else {
-            MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand"));
+            MessageSender.sendWarningMessage(sender, lang.getString("unknownCommand.pre") + " " + commands.get("help").getKey() + " " + lang.getString("unknownCommand.post"));
             return true;
         }
     }

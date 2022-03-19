@@ -11,7 +11,7 @@ commandsDesc:
   create: "Create your own team"
   quit: "Allows you to quit your team"
   disband: "Allows you to disband your team"
-  members: "Everything that is linked to your player team, inviting a new one, removing one or displays a list of all of them"
+  members: "Everything that is linked to your team players, inviting a new one, removing one or displays a list of all of them"
   warp: "Allows you to set your team's warp to your current location, to remove it or to set its visibility for others"
   rank: "Returns the rank of the specified team"
   nameLeader: "Allows you to name the leader of your team"
@@ -118,7 +118,6 @@ commandInfo:
   # Alternative message if team does not exist, made as following:
   # <team> "noExist"
   noExist: "does not exists"
-  # End of the team info messages
 
   # Player info command:
   # <player> "isIn" <playerTeam>
@@ -126,7 +125,12 @@ commandInfo:
 
   noTeam: "does not have a team, poor boy :,("
 
-unknownCommand: "Unknown command. Type /st help to see a list of them"
+# For the following parameter:
+# <player> "unknownCommand.pre" <helpCommand> "unknownCommand.post"
+unknownCommand:
+  pre: "Unknown command. Type"
+  post: "to see a list of them"
+
 notLeader: "Sorry but you don't have the permission to do that, please ask to your team leader"
 notInTeam: "You can't perform that commands because you are not in a team"
 teamAlreadyExists: "That team already exists"
@@ -143,7 +147,7 @@ usageMessage: "Correct usage for this command is :"
 
 # For the following parameter:
 # "preventLeaderQuit" <commandQuitUsage>
-preventLeaderQuit: "You can't leave your team because you are the leader of it, either name a new leader of disband your team with"
+preventLeaderQuit: "You can't leave your team because you are the leader of it, either name a new leader or disband your team with"
 
 # For the following parameter:
 # "noTeams" <commandCreateUsage>
