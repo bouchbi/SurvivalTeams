@@ -42,6 +42,9 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                             MySQLConnector.updateInfo(plTeam, TeamInfo.WARP, null);
                             MessageSender.sendMessage(sender, lang.getString("commandsSuccess.warp.remove"));
                             break;
+                        case "setVisible":
+                            MessageSender.sendUsage(sender, "/st warp setVisible shown|hidden");
+                            return true;
                     }
                 } else {
                     MessageSender.sendWarningMessage(sender, lang.getString("notLeader"));

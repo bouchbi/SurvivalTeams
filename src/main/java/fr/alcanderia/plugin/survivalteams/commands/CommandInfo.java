@@ -40,8 +40,8 @@ public class CommandInfo implements CommandExecutor, TabCompleter {
                     MessageSender.sendWarningMessage(sender, team + " " + lang.getString("commandInfo.noExist"));
                 }
             } else if (Objects.equals(args[0], "player")) {
-                if (MySQLConnector.getPlayerTeam(args[1]) != null)
-                    MessageSender.sendMessage(sender, args[1] + " " + lang.getString("commandInfo.isIn") + " " + TeamHelper.getTeamColor(args[1]) + MySQLConnector.getPlayerTeam(args[1]));
+                if (TeamHelper.getPlayerTeam(args[1]) != null)
+                    MessageSender.sendMessage(sender, args[1] + " " + lang.getString("commandInfo.isIn") + " " + TeamHelper.getTeamColor(TeamHelper.getPlayerTeam(args[1])) + MySQLConnector.getPlayerTeam(args[1]));
                 else
                     MessageSender.sendMessage(sender, args[1] + " " + lang.getString("commandInfo.noTeam"));
             }

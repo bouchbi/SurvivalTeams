@@ -104,7 +104,7 @@ members:
 
   # Pour le paramètre suivant:
   # <player> "notInTeam"
-  notInteam: "n'est pas dans la team"
+  notInTeam: "n'est pas dans la team"
 
 commandInfo:
   # Le message est constitué comme il suit:
