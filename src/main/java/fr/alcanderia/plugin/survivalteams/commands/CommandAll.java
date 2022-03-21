@@ -31,6 +31,8 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                     return new CommandList().onCommand(sender, command, label, new String[0]);
                 case "top":
                     return new CommandTop().onCommand(sender, command, label, newArgs);
+                case "tp":
+                    return new CommandTp().onCommand(sender, command, label, newArgs);
                 case "color":
                     return new CommandColor().onCommand(sender, command, label, newArgs);
                 case "info":
@@ -120,6 +122,9 @@ public class CommandAll implements CommandExecutor, TabCompleter {
                         if (hasTeamCommands)
                             completions.addAll(new CommandNameLeader().onTabComplete(sender, command, alias, newArgs));
                         break;
+                    case "tp":
+                        completions.addAll(new CommandTp().onTabComplete(sender, command, alias, newArgs));
+                        break;
                     case "admin":
                         completions.addAll(new CommandAdmin().onTabComplete(sender, command, alias, newArgs));
                         break;
@@ -133,6 +138,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
 
     public static void regCommands() {
         regCommand("top", "/st top <maxRank>", lang.getString("commandsDesc.top"));
+        regCommand("tp", "/st tp <team>", lang.getString("commandsDesc.tp"));
         regCommand("color", "/st color <color>", lang.getString("commandsDesc.color"));
         regCommand("list", "/st list", lang.getString("commandsDesc.list"));
         regCommand("info", "/st info team|player <team>|<player>", lang.getString("commandsDesc.info"));

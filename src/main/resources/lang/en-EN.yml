@@ -5,6 +5,7 @@
 
 commandsDesc:
   top: "Displays a top of the teams, from 1st to the parameter you specify"
+  tp: "Tp to the warp of a team that has it visible"
   color: "Allows you to set the display color for your team"
   list: "Displays a list of all the teams"
   info: "Returns the informations concerning a specific team/player"
@@ -166,6 +167,8 @@ list: "Here is a list of all the teams (click one to see teams info) : "
 teamNoExists: "This team does not exists"
 plNotFound: "Player not found"
 teamNoPlayers: "Your team has no players"
+warpNotVisible: "Sorry but the warp of this team is private, you can't teleport"
+warpNotDefined: "Sorry but the warp of this team has not been defined, you can't teleport"
 reload: "Plugin configuration reloaded"
 
 # For the following parameter:

@@ -5,7 +5,8 @@
 
 commandsDesc:
   top: "Affiche un classement des teams, de la 1ère jusqu'au paramètre spécifié"
-  color: "Vous permet de choisir la couleur d'affichage de votre team"
+  tp: "Permet de te téléporter au warp d'une team qui l'a visible"
+  color: "Permet de choisir la couleur d'affichage de la team"
   list: "Affiche une liste de toutes les teams"
   info: "Donne les informations concernant le joueur/ la team spécifié/e"
   create: "Créé ta propre team"
@@ -166,6 +167,8 @@ list: "Voici une liste de toutes les teams (cliques sur une pour afficher ses in
 teamNoExists: "Cette team n'existe pas"
 plNotFound: "Joueur introuvable"
 teamNoPlayers: "La team ne possède pas de joueurs"
+warpNotVisible: "Désolé mais le warp de cette team est privé, impossible de t'y téléporter"
+warpNotDefined: "Désolé mais le warp de cette team n'a pas été défini, impossible de t'y téléporter"
 reload: "La configuration du plugin a été rechargée"
 
 # Pour le paramètre suivant:

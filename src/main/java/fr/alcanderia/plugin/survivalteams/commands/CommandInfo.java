@@ -5,6 +5,7 @@ import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,9 +35,13 @@ public class CommandInfo implements CommandExecutor, TabCompleter {
                     msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.composition") + " " + teamColor + TeamHelper.getTeamPlayers(team));
                     msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.leader") + " " + teamColor + TeamHelper.getTeamLeader(team));
                     msg.addExtra(ChatColor.GREEN + ", " + lang.getString("commandInfo.money") + " " + teamColor + TeamHelper.getTeamEconomy(team));
-                    if (TeamHelper.isTeamWarpVisible(team) && sender instanceof Player)
-                        if (Survivalteams.getConfiguration().getString("warpsWorlds").equals(((Player) sender).getWorld()))
-                            msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.location") + " " + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
+                    if (TeamHelper.isTeamWarpVisible(team) && sender instanceof Player) {
+                        if (Survivalteams.getConfiguration().getString("warpsWorlds").equals(((Player) sender).getWorld())) {
+                            TextComponent msgEXtra = new TextComponent(ChatColor.GREEN + " " + lang.getString("commandInfo.location") + " " + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
+                            msgEXtra.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st tp " + team));
+                            msg.addExtra(msgEXtra);
+                        }
+                    }
                     MessageSender.sendEffectMessageWithPrefix(sender, msg);
                 } else {
                     MessageSender.sendWarningMessage(sender, team + " " + lang.getString("commandInfo.noExist"));
