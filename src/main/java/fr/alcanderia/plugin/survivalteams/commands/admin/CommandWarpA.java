@@ -1,6 +1,8 @@
 package fr.alcanderia.plugin.survivalteams.commands.admin;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -16,6 +18,8 @@ import java.util.List;
 
 public class CommandWarpA implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -23,9 +27,9 @@ public class CommandWarpA implements CommandExecutor, TabCompleter {
             if (args[0].equals("remove")) {
                 if (TeamHelper.checkTeamExistence(args[1])) {
                     TeamHelper.setTeamWarpLocation(args[1], null);
-                    MessageSender.sendMessage(sender, "You removed team warp");
+                    MessageSender.sendMessage(sender, lang.getString("commandsSuccess.warp.remove"));
                 } else {
-                    MessageSender.sendWarningMessage(sender, "Team not found");
+                    MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
                 }
             } else if (args[0].equals("set")) {
                 Player pl = (Player) sender;
@@ -37,9 +41,9 @@ public class CommandWarpA implements CommandExecutor, TabCompleter {
                     coords.add(String.valueOf(pl.getLocation().getZ()));
 
                     TeamHelper.setTeamWarpLocation(args[1], coords);
-                    MessageSender.sendMessage(sender, "Successfully set team warp to your current location");
+                    MessageSender.sendMessage(sender, lang.getString("commandsSuccess.warp.update"));
                 } else {
-                    MessageSender.sendWarningMessage(sender, "Team not found");
+                    MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
                 }
             }
         } else {

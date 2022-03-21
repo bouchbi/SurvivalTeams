@@ -115,6 +115,8 @@ public class MySQLConnector {
                         if (resPlayers.contains(player))
                             return rs.getString(TeamInfo.NAME.name);
                     }
+
+                    return null;
                 } catch (SQLException e) {
                     logger.warning("Cannot get teamInfo from database");
                     e.printStackTrace();

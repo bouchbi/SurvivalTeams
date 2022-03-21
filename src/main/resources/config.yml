@@ -45,5 +45,5 @@ commands:
   # It must be a positive number
   confirmationDelay: 60
 
-# A list of all the worlds warps are enabled in
-warpsWorlds: ["world", "world_nether", "world_the_end"]
+# The world in which teams can create their warp and players can teleport to
+warpsWorld: "world"

@@ -1,6 +1,8 @@
 package fr.alcanderia.plugin.survivalteams.commands.admin;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +17,8 @@ import java.util.Objects;
 
 public class CommandSetLeaderA implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -28,12 +32,13 @@ public class CommandSetLeaderA implements CommandExecutor, TabCompleter {
                 if (players != null) {
                     if (players.contains(pl)) {
                         TeamHelper.setLeader(team, pl);
+                        MessageSender.sendMessage(sender, pl + " " + lang.getString("commandsAdmin.newLeader") + " " + team);
                     }
                 } else {
-                    MessageSender.sendWarningMessage(sender, "Team has no players");
+                    MessageSender.sendWarningMessage(sender, lang.getString("teamNoPlayers"));
                 }
             } else {
-                MessageSender.sendWarningMessage(sender, "Team not found");
+                MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
             }
         } else {
             MessageSender.sendUsage(sender, "/st admin setLeader <team> <player>");

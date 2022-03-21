@@ -12,11 +12,16 @@ commandsDesc:
   quit: "Quitte ta team"
   disband: "Dissoud ta team"
   members: "Tout ce qui est en lien avec les joueurs de ta team, en inviter un nouveau, en enlever un ou afficher la liste de tous"
-  warp: "Modifie le warp de ta team a ta localisation actuelle, enlèeve-le ou change sa visibilité pour les autres joueurs"
+  warp: "Modifie le warp de ta team a ta localisation actuelle, enlève-le ou change sa visibilité pour les autres joueurs"
   rank: "Donne le rang de la team spécifiée"
   nameLeader: "Nomme un nouveau leader pour ta team"
   admin: "Commandes pour l'administration"
   help: "Affiche une liste de toutes les commandes"
+  adminCommands:
+    disband: "Dissoud une team"
+    member: "Ajoute ou enlève un joueur d'une team"
+    warp: "Te permet de modifier le warp d'une team a ta localisation actuelle ou de l'enlever"
+    setLeader: "Te permet de nommer le leader d'une team"
 
 commandsSuccess:
   color: "Couleur de team modifiée avec succès"
@@ -63,6 +68,27 @@ commandsSuccess:
   # "choose" <maxRank> "and"
   choose: "Veuillez choisir un nombre entre"
   and: "et"
+
+commandsAdmin:
+  # Pour le paramètre suivant:
+  # <player> "mamberAdd" <team>
+  memberAdd: "a été ajouté à"
+
+  # Pour le paramètre suivant:
+  # <player> "alreadyIn" <team>
+  alreadyIn: "fait déjà partie de"
+
+  # Pour le paramètre suivant:
+  # <player> "memberRemove" <team>
+  memberRemove: "a été exclus de"
+
+  # Pour le paramètre suivant:
+  # <player> "memberNotIn" <team>
+  memberNotIn: "ne fait pas partie de"
+
+  # Pour le paramètre suivant:
+  # <player> "newLeader" <team>
+  newLeader: "est le nouveau leader de "
 
 commandsNotValid:
   color: "La couleur spécifiée n'est pas valide, veuillez suivre les propositions de commandes"
@@ -139,7 +165,8 @@ help: "Voici une liste de toutes les commandes (cliques sur une pour la complét
 list: "Voici une liste de toutes les teams (cliques sur une pour afficher ses infos) : "
 teamNoExists: "Cette team n'existe pas"
 plNotFound: "Joueur introuvable"
-teamNoPlayers: "Ta team ne possède pas de joueurs"
+teamNoPlayers: "La team ne possède pas de joueurs"
+reload: "La configuration du plugin a été rechargée"
 
 # Pour le paramètre suivant:
 # "usageMessage" <commandUsage>

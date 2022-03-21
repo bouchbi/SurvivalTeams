@@ -3,10 +3,12 @@ package fr.alcanderia.plugin.survivalteams.commands;
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
 import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
+import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.*;
@@ -65,43 +67,66 @@ public class CommandAll implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         final List<String> completions = new ArrayList<>();
 
-        if (args.length == 1) {
-            final List<String> commands = new ArrayList<>(CommandAll.commands.keySet());
-            StringUtil.copyPartialMatches(args[0], commands, completions);
-        } else if (args.length >= 2) {
-            String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
-            switch (args[0]) {
-                default:
-                    break;
-                case "top":
-                    completions.addAll(new CommandTop().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "color":
-                    completions.addAll(new CommandColor().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "info":
-                    completions.addAll(new CommandInfo().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "create":
-                    completions.addAll(new CommandCreate().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "members":
-                    completions.addAll(new CommandMembers().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "warp":
-                    completions.addAll(new CommandWarp().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "rank":
-                    completions.addAll(new CommandRank().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "nameLeader":
-                    completions.addAll(new CommandNameLeader().onTabComplete(sender, command, alias, newArgs));
-                    break;
-                case "admin":
-                    completions.addAll(new CommandAdmin().onTabComplete(sender, command, alias, newArgs));
-                    break;
+        if (sender instanceof Player) {
+            String team = TeamHelper.getPlayerTeam((Player) sender);
+            boolean hasTeamCommands = team != null;
+            boolean hasLeaderCommands = false;
+            if (hasTeamCommands)
+                hasLeaderCommands = TeamHelper.getTeamLeader(team).equals(sender.getName());
+
+            if (args.length == 1) {
+                final List<String> commands = new ArrayList<>(CommandAll.commands.keySet());
+
+                if (!hasTeamCommands) {
+                    commands.remove("quit");
+                    commands.remove("nameLeader");
+                }
+                if (!hasLeaderCommands) {
+                    commands.remove("color");
+                    commands.remove("warp");
+                    commands.remove("disband");
+                }
+
+                StringUtil.copyPartialMatches(args[0], commands, completions);
+            } else if (args.length >= 2) {
+                String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+                switch (args[0]) {
+                    default:
+                        break;
+                    case "top":
+                        completions.addAll(new CommandTop().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "color":
+                        if (hasTeamCommands)
+                            completions.addAll(new CommandColor().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "info":
+                        completions.addAll(new CommandInfo().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "create":
+                        completions.addAll(new CommandCreate().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "members":
+                        completions.addAll(new CommandMembers().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "warp":
+                        if (hasTeamCommands)
+                            completions.addAll(new CommandWarp().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "rank":
+                        completions.addAll(new CommandRank().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "nameLeader":
+                        if (hasTeamCommands)
+                            completions.addAll(new CommandNameLeader().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                    case "admin":
+                        completions.addAll(new CommandAdmin().onTabComplete(sender, command, alias, newArgs));
+                        break;
+                }
             }
         }
+
         Collections.sort(completions);
         return completions;
     }

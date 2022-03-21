@@ -12,6 +12,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.*;
@@ -33,8 +34,9 @@ public class CommandInfo implements CommandExecutor, TabCompleter {
                     msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.composition") + " " + teamColor + TeamHelper.getTeamPlayers(team));
                     msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.leader") + " " + teamColor + TeamHelper.getTeamLeader(team));
                     msg.addExtra(ChatColor.GREEN + ", " + lang.getString("commandInfo.money") + " " + teamColor + TeamHelper.getTeamEconomy(team));
-                    if (TeamHelper.isTeamWarpVisible(team))
-                        msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.location") + " " + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
+                    if (TeamHelper.isTeamWarpVisible(team) && sender instanceof Player)
+                        if (Survivalteams.getConfiguration().getString("warpsWorlds").equals(((Player) sender).getWorld()))
+                            msg.addExtra(ChatColor.GREEN + " " + lang.getString("commandInfo.location") + " " + teamColor + Arrays.toString(TeamHelper.getTeamWarpLocation(team)));
                     MessageSender.sendEffectMessageWithPrefix(sender, msg);
                 } else {
                     MessageSender.sendWarningMessage(sender, team + " " + lang.getString("commandInfo.noExist"));

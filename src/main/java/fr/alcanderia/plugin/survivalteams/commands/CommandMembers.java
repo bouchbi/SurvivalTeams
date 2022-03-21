@@ -109,10 +109,18 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
         final List<String> commands = new ArrayList<>();
         final List<String> completions = new ArrayList<>();
 
+        String team = TeamHelper.getPlayerTeam((Player) sender);
+        boolean hasTeamCommands = team != null;
+        boolean hasLeaderCommands = false;
+        if (hasTeamCommands)
+            hasLeaderCommands = TeamHelper.getTeamLeader(team).equals(sender.getName());
+
         if (args.length == 1) {
+            if (hasLeaderCommands) {
+                commands.add("invite");
+                commands.add("remove");
+            }
             commands.add("list");
-            commands.add("invite");
-            commands.add("remove");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2) {
             switch (args[0]) {
@@ -121,14 +129,18 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                     StringUtil.copyPartialMatches(args[1], commands, completions);
                     break;
                 case "invite":
-                    Bukkit.getOnlinePlayers().forEach(pl -> commands.add(pl.getName()));
-                    commands.remove(sender.getName());
-                    StringUtil.copyPartialMatches(args[1], commands, completions);
+                    if (hasLeaderCommands) {
+                        Bukkit.getOnlinePlayers().forEach(pl -> commands.add(pl.getName()));
+                        commands.remove(sender.getName());
+                        StringUtil.copyPartialMatches(args[1], commands, completions);
+                    }
                     break;
                 case "remove":
-                    commands.addAll(TeamHelper.getTeamPlayers(TeamHelper.getPlayerTeam(sender.getName())));
-                    commands.remove(sender.getName());
-                    StringUtil.copyPartialMatches(args[1], commands, completions);
+                    if (hasLeaderCommands) {
+                        commands.addAll(TeamHelper.getTeamPlayers(TeamHelper.getPlayerTeam(sender.getName())));
+                        commands.remove(sender.getName());
+                        StringUtil.copyPartialMatches(args[1], commands, completions);
+                    }
                     break;
             }
         }

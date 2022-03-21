@@ -1,6 +1,8 @@
 package fr.alcanderia.plugin.survivalteams.commands.admin;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -17,6 +19,8 @@ import java.util.Objects;
 
 public class CommandMemberA implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -31,24 +35,24 @@ public class CommandMemberA implements CommandExecutor, TabCompleter {
                     if (args[0].equals("add")) {
                         if (!TeamHelper.getTeamPlayers(team).contains(player)) {
                             TeamHelper.addPlayer(team, player);
-                            MessageSender.sendMessage(sender, player + " has been added to " + team);
+                            MessageSender.sendMessage(sender, player + " " + lang.getString("commandsAdmin.memberAdd") + " " + team);
                         } else {
-                            MessageSender.sendWarningMessage(sender, player + " is already in " + team);
+                            MessageSender.sendWarningMessage(sender, player + " " + lang.getString("commandsAdmin.alreadyIn") + " " + team);
                         }
                     } else if (args[0].equals("remove")) {
                         if (TeamHelper.getTeamPlayers(team).contains(player)) {
                             TeamHelper.removePlayer(team, player);
-                            MessageSender.sendMessage(sender, player + " has been removed to " + team);
+                            MessageSender.sendMessage(sender, player + " " + lang.getString("commandsAdmin.memberRemove") + " " + team);
                         } else {
-                            MessageSender.sendWarningMessage(sender, player + " is not in " + team);
+                            MessageSender.sendWarningMessage(sender, player + " " + lang.getString("commandsAdmin.memberNotIn") + " " + team);
                         }
                     }
                 } else {
-                    MessageSender.sendWarningMessage(sender, team + " has no players");
+                    MessageSender.sendWarningMessage(sender, lang.getString("teamNoPlayers"));
                 }
 
             } else {
-                MessageSender.sendWarningMessage(sender, "Team not found");
+                MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
             }
         } else {
             MessageSender.sendUsage(sender, "/st admin member add|remove <team> <player>");

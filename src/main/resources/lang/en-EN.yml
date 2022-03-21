@@ -17,6 +17,11 @@ commandsDesc:
   nameLeader: "Allows you to name the leader of your team"
   admin: "Commands for administration"
   help: "Displays the list of all the commands"
+  adminCommands:
+    disband: "Disband a team"
+    member: "Add or remove a player in a team"
+    warp: "Set a team warp to your current location or remove it"
+    setLeader: "Name a leader for a team"
 
 commandsSuccess:
   color: "Successfully updated team color"
@@ -63,6 +68,27 @@ commandsSuccess:
   # "choose" <maxRank> "and"
   choose: "Please choose a number between"
   and: "and"
+
+commandsAdmin:
+  # For the following parameter:
+  # <player> "mamberAdd" <team>
+  memberAdd: "has been added to"
+
+  # For the following parameter:
+  # <player> "alreadyIn" <team>
+  alreadyIn: "is already in"
+
+  # For the following parameter:
+  # <player> "memberRemove" <team>
+  memberRemove: "has been removed from"
+
+  # For the following parameter:
+  # <player> "memberNotIn" <team>
+  memberNotIn: "is not in"
+
+  # For the following parameter:
+  # <player> "newLeader" <team>
+  newLeader: "is the new leader of"
 
 commandsNotValid:
   color: "The specified color is not valid, please follow the tab completion"
@@ -140,6 +166,7 @@ list: "Here is a list of all the teams (click one to see teams info) : "
 teamNoExists: "This team does not exists"
 plNotFound: "Player not found"
 teamNoPlayers: "Your team has no players"
+reload: "Plugin configuration reloaded"
 
 # For the following parameter:
 # "usageMessage" <commandUsage>

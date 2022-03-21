@@ -1,6 +1,8 @@
 package fr.alcanderia.plugin.survivalteams.commands.admin;
 
+import fr.alcanderia.plugin.survivalteams.Survivalteams;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,6 +16,8 @@ import java.util.List;
 
 public class CommandDisbandA implements CommandExecutor, TabCompleter {
 
+    private static LangHandler lang = Survivalteams.getLanguageFile();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
@@ -21,9 +25,9 @@ public class CommandDisbandA implements CommandExecutor, TabCompleter {
 
             if (TeamHelper.checkTeamExistence(team)) {
                 TeamHelper.disbandTeam(team);
-                MessageSender.sendMessage(sender, "You disbanded " + team);
+                MessageSender.sendMessage(sender, lang.getString("commandsSuccess.disband"));
             } else {
-                MessageSender.sendWarningMessage(sender, "Team not found");
+                MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
             }
         } else {
             MessageSender.sendUsage(sender, "/st admin disband <team>");
