@@ -45,6 +45,10 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
                         case "setVisible":
                             MessageSender.sendUsage(sender, "/st warp setVisible shown|hidden");
                             return true;
+                        case "tp":
+                            String[] newArgs = new String[1];
+                            newArgs[0] = plTeam;
+                            return new CommandTp().onCommand(sender, command, label, newArgs);
                     }
                 } else {
                     MessageSender.sendWarningMessage(sender, lang.getString("notLeader"));
@@ -89,6 +93,7 @@ public class CommandWarp implements CommandExecutor, TabCompleter {
             commands.add("set");
             commands.add("remove");
             commands.add("setVisible");
+            commands.add("tp");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         } else if (args.length == 2 && args[0].equals("setVisible")) {
             commands.add("shown");

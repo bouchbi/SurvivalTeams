@@ -24,18 +24,25 @@ public class LangHandler {
     }
 
     public void loadFile() {
+        Logger logger = this.plugin.getLogger();
+        String language = Survivalteams.getInstance().getConfig().getString("lang");
+
         String langFolderPath = this.plugin.getDataFolder().getAbsolutePath() + System.getProperty("file.separator") + "lang";
         File folder = new File(langFolderPath);
         if (!folder.exists()) {
+            logger.info("no lang directory, plugin will attempt to create one");
             folder.mkdir();
+            logger.info("lang directory successfully created");
         }
 
-        String language = Survivalteams.getInstance().getConfig().getString("lang");
-        Logger logger = this.plugin.getLogger();
 
         String langFilePath = langFolderPath + System.getProperty("file.separator") + language + ".yml";
         String pluginLangPath = "lang" + System.getProperty("file.separator") + language + ".yml";
-        this.plugin.saveResource(pluginLangPath, false);
+        if (!new File(langFilePath).exists()) {
+            logger.info("no lang file, plugin will attempt to create one");
+            this.plugin.saveResource(pluginLangPath, false);
+            logger.info("lang file successfully created");
+        }
 
         try {
             logger.info("Loading lang file in directory");
@@ -50,6 +57,7 @@ public class LangHandler {
                 langConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
             }
             langConfig.load(langFilePath);
+            logger.info("Successfully loaded lang file");
         } catch (Exception e) {
             logger.warning("Unable to load language file, please try creating one by hand");
             e.printStackTrace();

@@ -146,7 +146,7 @@ public class CommandAll implements CommandExecutor, TabCompleter {
         regCommand("quit", "/st quit", lang.getString("commandsDesc.quit"));
         regCommand("disband", "/st disband", lang.getString("commandsDesc.disband"));
         regCommand("members", "/st members invite|remove|list <player|team>", lang.getString("commandsDesc.members"));
-        regCommand("warp", "/st warp set|remove|setVisible", lang.getString("commandsDesc.warp"));
+        regCommand("warp", "/st warp set|remove|setVisible|tp", lang.getString("commandsDesc.warp"));
         regCommand("rank", "/st rank <team>", lang.getString("commandsDesc.rank"));
         regCommand("nameLeader", "/st nameLeader <teamPlayer>", lang.getString("commandsDesc.nameLeader"));
         regCommand("admin", "(/st admin help) to see the list of all commands", lang.getString("commandsDesc.admin"));

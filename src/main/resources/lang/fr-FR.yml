@@ -168,8 +168,8 @@ list: "Voici une liste de toutes les teams (cliques sur une pour afficher ses in
 teamNoExists: "Cette team n'existe pas"
 plNotFound: "Joueur introuvable"
 teamNoPlayers: "La team ne possède pas de joueurs"
-warpNotVisible: "Désolé mais le warp de cette team est privé, impossible de t'y téléporter"
-warpNotDefined: "Désolé mais le warp de cette team n'a pas été défini, impossible de t'y téléporter"
+warpNotVisible: "Désolé mais le warp de la team est privé, impossible de t'y téléporter"
+warpNotDefined: "Désolé mais le warp de la team n'a pas été défini, impossible de t'y téléporter"
 reload: "La configuration du plugin a été rechargée"
 
 # Pour le paramètre suivant:

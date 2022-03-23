@@ -30,20 +30,20 @@ public class CommandTp implements CommandExecutor, TabCompleter {
                 List<String> teamPlayers = TeamHelper.getTeamPlayers(team);
                 int[] warp = TeamHelper.getTeamWarpLocation(team);
 
-                if (TeamHelper.isTeamWarpVisible(team)) {
-                    if (warp != null) {
+                if (warp != null) {
+                    if (TeamHelper.isTeamWarpVisible(team)) {
                         CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
                         MessageSender.confirmationMessage(pl);
                     } else {
-                        MessageSender.sendMessage(sender, lang.getString("warpNotDefined"));
+                        if (teamPlayers.contains(sender.getName())) {
+                            CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
+                            MessageSender.confirmationMessage(pl);
+                        } else {
+                            MessageSender.sendMessage(sender, lang.getString("warpNotVisible"));
+                        }
                     }
                 } else {
-                    if (teamPlayers.contains(sender.getName())) {
-                        CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
-                        MessageSender.confirmationMessage(pl);
-                    } else {
-                        MessageSender.sendMessage(sender, lang.getString("warpNotVisible"));
-                    }
+                    MessageSender.sendMessage(sender, lang.getString("warpNotDefined"));
                 }
             } else {
                 MessageSender.sendWarningMessage(sender, lang.getString("teamNoExists"));
