@@ -1,7 +1,9 @@
 package fr.alcanderia.plugin.survivalteams.commands;
 
 import fr.alcanderia.plugin.survivalteams.Survivalteams;
+import fr.alcanderia.plugin.survivalteams.network.MySQLConnector;
 import fr.alcanderia.plugin.survivalteams.services.MessageSender;
+import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
 import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.Location;
@@ -10,8 +12,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
-import java.util.List;
+import java.util.*;
 
 public class CommandTp implements CommandExecutor, TabCompleter {
 
@@ -29,13 +32,15 @@ public class CommandTp implements CommandExecutor, TabCompleter {
 
                 if (TeamHelper.isTeamWarpVisible(team)) {
                     if (warp != null) {
-                        pl.teleport(new Location(pl.getWorld(), warp[0], warp[1], warp[2]));
+                        CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
+                        MessageSender.confirmationMessage(pl);
                     } else {
                         MessageSender.sendMessage(sender, lang.getString("warpNotDefined"));
                     }
                 } else {
                     if (teamPlayers.contains(sender.getName())) {
-
+                        CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
+                        MessageSender.confirmationMessage(pl);
                     } else {
                         MessageSender.sendMessage(sender, lang.getString("warpNotVisible"));
                     }
@@ -52,6 +57,15 @@ public class CommandTp implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return null;
+        final List<String> commands = new ArrayList<>();
+        final List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            commands.addAll(Objects.requireNonNull(MySQLConnector.getAllTeams()));
+            StringUtil.copyPartialMatches(args[0], commands, completions);
+        }
+
+        Collections.sort(completions);
+        return completions;
     }
 }

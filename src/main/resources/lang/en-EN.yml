@@ -31,6 +31,7 @@ commandsSuccess:
     update: "Successfully updated warp location to your current location"
     remove: "Successfully removed warp location"
     visibility: "You updated your team warp's visibility"
+    tp: "Successfully teleported to team warp"
 
   # Values introduced with the string are annotated before the message
   # For example, below, <player> is used with "nameLeader" parameter and its usage is shown

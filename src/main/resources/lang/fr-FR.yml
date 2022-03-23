@@ -31,6 +31,7 @@ commandsSuccess:
     update: "Warp modifié avec succès à ta localisation actuelle"
     remove: "Warp enlevé avec succès"
     visibility: "Visibilité du warp de la team modifié avec succès"
+    tp: "Téléporté au warp de la team avec succès"
 
   # Les valeurs introduites avec les messages sont spécifiées avec les paramètres
   # Par exemple, ci-dessous, <player> est utilisé avec le paramètre "nameLeader" et son usage est décrit
