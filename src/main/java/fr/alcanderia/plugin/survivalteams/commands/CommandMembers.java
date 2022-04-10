@@ -43,37 +43,41 @@ public class CommandMembers implements CommandExecutor, TabCompleter {
                         if (Objects.equals(args[0], "invite") && sender instanceof Player) {
                             Player plInvited = Bukkit.getPlayer(args[1]);
                             if (plInvited != null) {
-                                if (!isPlInTeam) {
-                                    if (config.getBoolean("commands.confirmationOn.memberInvite")) {
-                                        if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
-                                            // Logic for confirmation command listening
-                                            CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
-                                            CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
+                                if (TeamHelper.getPlayerTeam(plInvited) == null) {
+                                    if (!isPlInTeam) {
+                                        if (config.getBoolean("commands.confirmationOn.memberInvite")) {
+                                            if (!CommandInvitation.delay.containsKey(plInvited) && !CommandInvitation.invites.containsKey(plInvited)) {
+                                                // Logic for confirmation command listening
+                                                CommandInvitation.delay.put(plInvited, System.currentTimeMillis());
+                                                CommandInvitation.invites.put(plInvited, new AbstractMap.SimpleEntry<>((Player) sender, TeamHelper.getPlayerTeam(sender.getName())));
 
-                                            // Player Invitation
-                                            TextComponent msgFinal = MessageSender.invitationMessage(sender.getName(), playerTeam);
-                                            TextComponent accept = new TextComponent(ChatColor.DARK_GREEN + "accept" + ChatColor.RESET);
-                                            TextComponent decline = new TextComponent(ChatColor.DARK_RED + "decline" + ChatColor.RESET);
-                                            accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st invitation accept"));
-                                            decline.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st invitation decline"));
-                                            msgFinal.addExtra(ChatColor.RESET + "[ ");
-                                            msgFinal.addExtra(accept);
-                                            msgFinal.addExtra(" | ");
-                                            msgFinal.addExtra(decline);
-                                            msgFinal.addExtra(" ]");
-                                            MessageSender.sendEffectMessageWithPrefix(plInvited, msgFinal);
+                                                // Player Invitation
+                                                TextComponent msgFinal = MessageSender.invitationMessage(sender.getName(), playerTeam);
+                                                TextComponent accept = new TextComponent(ChatColor.DARK_GREEN + "accept" + ChatColor.RESET);
+                                                TextComponent decline = new TextComponent(ChatColor.DARK_RED + "decline" + ChatColor.RESET);
+                                                accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st invitation accept"));
+                                                decline.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st invitation decline"));
+                                                msgFinal.addExtra(ChatColor.RESET + "[ ");
+                                                msgFinal.addExtra(accept);
+                                                msgFinal.addExtra(" | ");
+                                                msgFinal.addExtra(decline);
+                                                msgFinal.addExtra(" ]");
+                                                MessageSender.sendEffectMessageWithPrefix(plInvited, msgFinal);
 
-                                            // Player confirmation
-                                            MessageSender.sendMessage(sender, plInvited.getName() + " " + lang.getString("invitation.notifySender"));
+                                                // Player confirmation
+                                                MessageSender.sendMessage(sender, plInvited.getName() + " " + lang.getString("invitation.notifySender"));
+                                            } else {
+                                                MessageSender.sendWarningMessage(sender, plInvited.getName() + " " + lang.getString("invitation.alreadyPending"));
+                                            }
                                         } else {
-                                            MessageSender.sendWarningMessage(sender, plInvited.getName() + " " + lang.getString("invitation.alreadyPending"));
+                                            TeamHelper.addPlayer(plInvited.getName(), playerTeam);
+                                            MessageSender.sendMessage(sender, lang.getString("commandsSuccess.recruited") + " " + ChatColor.GOLD + plInvited.getName());
                                         }
                                     } else {
-                                        TeamHelper.addPlayer(plInvited.getName(), playerTeam);
-                                        MessageSender.sendMessage(sender, lang.getString("commandsSuccess.recruited") + " " + ChatColor.GOLD + plInvited.getName());
+                                        MessageSender.sendWarningMessage(sender, args[1] + " " + lang.getString("invitation.alreadyInYour"));
                                     }
                                 } else {
-                                    MessageSender.sendWarningMessage(sender, args[1] + " " + lang.getString("invitation.alreadyInYour"));
+                                    MessageSender.sendWarningMessage(sender, args[1] + " " + lang.getString("invitation.alreadyInTeam"));
                                 }
                             } else {
                                 MessageSender.sendWarningMessage(sender, lang.getString("plNotFound"));
