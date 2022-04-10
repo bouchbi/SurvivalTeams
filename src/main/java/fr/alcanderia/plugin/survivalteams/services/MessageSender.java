@@ -13,6 +13,16 @@ public class MessageSender {
     private static final String messagePrefix = ChatColor.DARK_GRAY + "[" + ChatColor.GREEN + "Survival" + ChatColor.GRAY + "Teams" + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
     private static LangHandler lang = Survivalteams.getLanguageFile();
 
+    public enum PreventType {
+        BASIC("confirmation.message.basic"),
+        UNSAFE_LOC("confirmation.message.unsafe");
+
+        public final String msgPath;
+
+        PreventType(String path) {
+            this.msgPath = path;
+        }
+    }
 
     public static void sendMessage(CommandSender receiver, String msg) {
         receiver.sendMessage(messagePrefix + ChatColor.GREEN + msg);
@@ -53,8 +63,8 @@ public class MessageSender {
                 ChatColor.GREEN + ". ");
     }
 
-    public static void confirmationMessage(Player receiver) {
-        TextComponent finalMsg = new TextComponent(messagePrefix + ChatColor.GOLD + " " + lang.getString("confirmation.message") + " ");
+    public static void confirmationMessage(Player receiver, PreventType type) {
+        TextComponent finalMsg = new TextComponent(messagePrefix + ChatColor.GOLD + " " + lang.getString(type.msgPath) + " ");
         TextComponent confirm = new TextComponent(ChatColor.DARK_GREEN + "confirm" + ChatColor.RESET);
         TextComponent cancel = new TextComponent(ChatColor.DARK_RED + "cancel" + ChatColor.RESET);
         confirm.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/st confirmation confirm"));

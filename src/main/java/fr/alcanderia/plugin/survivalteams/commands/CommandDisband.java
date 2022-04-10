@@ -31,7 +31,7 @@ public class CommandDisband implements CommandExecutor {
                             // Logic for confirmation command listening
                             CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.DISBAND, plTeam)));
                             // Confirmation query message
-                            MessageSender.confirmationMessage(pl);
+                            MessageSender.confirmationMessage(pl, MessageSender.PreventType.BASIC);
                         } else {
                             MessageSender.sendWarningMessage(pl, lang.getString("confirmation.already"));
                         }

@@ -40,7 +40,7 @@ public class CommandNameLeader implements CommandExecutor, TabCompleter {
                                         // Logic for confirmation command listening
                                         CommandConfirmation.lastCommands.put((Player) sender, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.NAME_LEADER, args[0])));
                                         // Confirmation query message
-                                        MessageSender.confirmationMessage((Player) sender);
+                                        MessageSender.confirmationMessage((Player) sender, MessageSender.PreventType.BASIC);
                                     } else {
                                         MessageSender.sendWarningMessage(sender, lang.getString("confirmation.already"));
                                     }

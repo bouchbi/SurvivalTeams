@@ -29,7 +29,7 @@ public class CommandRank implements CommandExecutor, TabCompleter {
                 if (top != null && !top.isEmpty()) {
                     top.forEach(t -> {
                         if (t.equals(teamName))
-                            MessageSender.sendMessage(sender,  TeamHelper.getTeamColor(teamName) + teamName + ChatColor.GREEN + " " + lang.getString("commandsSuccess.ranked") + " " + (top.indexOf(t) + 1) + " " + lang.getString("commandsSuccess.ecoOf" + " " + TeamHelper.getTeamEconomy(t)));
+                            MessageSender.sendMessage(sender,  TeamHelper.getTeamColor(teamName) + teamName + ChatColor.GREEN + " " + lang.getString("commandsSuccess.ranked") + " " + (top.indexOf(t) + 1) + " " + lang.getString("commandsSuccess.ecoOf") + " " + TeamHelper.getTeamEconomy(t));
                     });
                 }
             } else {

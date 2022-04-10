@@ -100,7 +100,9 @@ confirmation:
   already: "Impossible d'nevoyer la confirmation, tu en as déjà une en cours"
   timeOut: "Tu as été trop long à valider"
   noAwaiting: "Pas de confirmation en attente"
-  message: "Es-tu sûr de vouloir faire cela ?"
+  message:
+    basic: "Es-tu sûr de vouloir faire cela ?"
+    unsafe: "§cCe lieu n'est pas sûr, veux-tu vraiment t'y téléporter ?"
 
 invitation:
   decline: "Invitation déclinée"

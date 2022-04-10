@@ -7,6 +7,8 @@ import fr.alcanderia.plugin.survivalteams.utils.ConfirmationType;
 import fr.alcanderia.plugin.survivalteams.utils.LangHandler;
 import fr.alcanderia.plugin.survivalteams.utils.TeamHelper;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -31,13 +33,13 @@ public class CommandTp implements CommandExecutor, TabCompleter {
                 int[] warp = TeamHelper.getTeamWarpLocation(team);
 
                 if (warp != null) {
+                    Location loc = CommandTp.LocFromArray(pl.getWorld(), warp);
+
                     if (TeamHelper.isTeamWarpVisible(team)) {
-                        CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
-                        MessageSender.confirmationMessage(pl);
+                        checkSafeAndConfirm(loc, warp, pl);
                     } else {
                         if (teamPlayers.contains(sender.getName())) {
-                            CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
-                            MessageSender.confirmationMessage(pl);
+                            checkSafeAndConfirm(loc, warp, pl);
                         } else {
                             MessageSender.sendMessage(sender, lang.getString("warpNotVisible"));
                         }
@@ -55,6 +57,24 @@ public class CommandTp implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    private static void checkSafeAndConfirm(Location loc, int[] warp, Player pl) {
+        Material underMat = new Location(pl.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ()).getBlock().getType();
+        Material Mat = loc.getBlock().getType();
+        Material overMat = new Location(pl.getWorld(), loc.getBlockX(), loc.getBlockY() + 1, loc.getBlockZ()).getBlock().getType();
+
+            if (!Survivalteams.getConfiguration().getBoolean("tpOnUnsafeWarp") &&
+                    Mat.equals(Material.LAVA) || Mat.isSolid() || Mat.equals(Material.WATER) ||
+                    overMat.equals(Material.LAVA) || overMat.isSolid() || overMat.equals(Material.WATER) ||
+                    underMat.equals(Material.LAVA) || underMat.isAir() || underMat.equals(Material.WATER)) {
+
+                CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
+                MessageSender.confirmationMessage(pl, MessageSender.PreventType.UNSAFE_LOC);
+            } else {
+                CommandConfirmation.lastCommands.put(pl, new AbstractMap.SimpleEntry<>(System.currentTimeMillis(), new AbstractMap.SimpleEntry<>(ConfirmationType.WARP_TP, Arrays.toString(warp))));
+                MessageSender.confirmationMessage(pl, MessageSender.PreventType.BASIC);
+            }
+    }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         final List<String> commands = new ArrayList<>();
@@ -67,5 +87,13 @@ public class CommandTp implements CommandExecutor, TabCompleter {
 
         Collections.sort(completions);
         return completions;
+    }
+
+    public static Location LocFromArray(World world, int[] arr) {
+        if (arr.length == 3) {
+            return new Location(world, arr[0], arr[1], arr[2]);
+        }
+        Survivalteams.getInstance().getLogger().warning("Array length must be equal to tree : " + arr);
+        return null;
     }
 }

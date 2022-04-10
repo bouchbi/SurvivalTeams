@@ -100,7 +100,9 @@ confirmation:
   already: "Cannot send confirmation, you already have one pending"
   timeOut: "You have been too long to confirm"
   noAwaiting: "You have no awaiting confirmation"
-  message: "Are you sure you want to do that ?"
+  message:
+    basic: "Are you sure you want to do that ?"
+    unsafe: "§cUnsafe location, are you sure you want to teleport ?"
 
 invitation:
   decline: "Declined invitation"
